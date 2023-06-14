@@ -11,19 +11,20 @@ class breakoutLogic():
 
     def __init__(self) -> None:
         self.kite = kiteInit()
-
-        orb_range_candle_time = (str(self.kite.getdata("orb_range_candle_time"))+"minute")
-        or_breakout_candle_time = (str(self.kite.getdata("or_breakout_candle_time"))+"minute")
-        orb_ma_h = self.kite.getdata("orb_ma_h")
-        orb_ma_l = self.kite.getdata("orb_ma_l")
-        orb_range_start_time1 = self.kite.getdata("orb_range_start_time")
-        orb_range_start_time = orb_range_start_time1.replace("T"," ")+":00" 
-        orb_retracement_time = self.kite.getdata("orb_retracement_time")
-        hl_difference_points = self.kite.getdata("hl_difference_points")
-        ttoken = self.kite.getdata("ttoken")
-        moving_avg_rows = self.kite.getdata("moving_avg_rows")
-        or_breakout_range_point_diff = self.kite.getdata("or_breakout_range_point_diff")
-
+        self.orb_range_candle_time = (str(self.kite.getdata("orb_range_candle_time"))+"minute")
+        self.or_breakout_candle_time = (str(self.kite.getdata("or_breakout_candle_time"))+"minute")
+        self.orb_ma_h = self.kite.getdata("orb_ma_h")
+        self.orb_ma_l = self.kite.getdata("orb_ma_l")
+        self.orb_range_start_time1 = self.kite.getdata("orb_range_start_time")
+        self.orb_range_start_time = self.orb_range_start_time1.replace("T"," ")+":00"
+        self.orb_retracement_time = self.kite.getdata("orb_retracement_time")
+        self.hl_difference_points = self.kite.getdata("hl_difference_points")
+        self.ttoken = self.kite.getdata("ttoken")
+        self.moving_avg_rows = self.kite.getdata("moving_avg_rows")
+        self.or_breakout_range_point_diff = self.kite.getdata("or_breakout_range_point_diff")
+    def historicalData(self,request):
+        # print(self.orb_range_start_time)
+        print(self.kite.historicalData(request, self.orb_range_start_time, self.orb_range_candle_time,self.ttoken, to_datetime= datetime.datetime.now()))
     def itmBreakoutAlert(self, request):
         ### Establish your KITE connection here and be ready to call kite.historical_data.
         # kite = Kite()
@@ -84,10 +85,10 @@ class breakoutLogic():
 
                 curr_day_df = pd.DataFrame(self.kite.historical_data(request, today, 'minute', 
                                                                      today, self.ttoken, oi=1))
-
+                
                 curr_day_after_start_time_df = curr_day_df[curr_day_df['date'].dt.time > self.orb_range_start_time]
 
-                curr_day_after_start_time_df =  resample_df(curr_day_after_start_time_df.copy(),
+                curr_day_after_start_time_df = resample_df(curr_day_after_start_time_df.copy(),
                                                             x_minutes = self.orb_range_candle_time)
                 
                 orb_first_candle = curr_day_after_start_time_df.head(1)

@@ -78,6 +78,7 @@ def login(request):
         
     # tradelogic.getData()
     breakout_l.__init__()
+    breakout_l.historicalData(request)
     tradelogic.dataAuth(request)
     # breakout_l.itmBreakoutAlert(request)
     # print(tradelogic.historicalData(request=request,from_datetime=from_datetime,interval=interval,
