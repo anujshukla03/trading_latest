@@ -3,6 +3,7 @@ import numpy as np
 import datetime
 from typing import Optional, Tuple
 import time
+# from datetime import datetime
 from apps.home.kite_init import kiteInit
 import math
 
@@ -11,20 +12,22 @@ class breakoutLogic():
 
     def __init__(self) -> None:
         self.kite = kiteInit()
-        self.orb_range_candle_time = (str(self.kite.getdata("orb_range_candle_time"))+"minute")
-        self.or_breakout_candle_time = (str(self.kite.getdata("or_breakout_candle_time"))+"minute")
+        self.orb_range_candle_time = int(self.kite.getdata("orb_range_candle_time"))
+        self.or_breakout_candle_time = int(self.kite.getdata("or_breakout_candle_time"))
         self.orb_ma_h = self.kite.getdata("orb_ma_h")
         self.orb_ma_l = self.kite.getdata("orb_ma_l")
         self.orb_range_start_time1 = self.kite.getdata("orb_range_start_time")
-        self.orb_range_start_time = self.orb_range_start_time1.replace("T"," ")+":00"
+        self.orb_range_start_time2 = str(self.orb_range_start_time1.replace("T"," ")+":00")
+        # self.orb_range_start_time = datetime.strptime(self.orb_range_start_time2, '%y-%m-%d %H:%M:%S')
+        self.orb_range_start_time=datetime.datetime.strptime(self.orb_range_start_time2, "%Y-%m-%d %H:%M:%S")
         self.orb_retracement_time = self.kite.getdata("orb_retracement_time")
         self.hl_difference_points = self.kite.getdata("hl_difference_points")
         self.ttoken = self.kite.getdata("ttoken")
-        self.moving_avg_rows = self.kite.getdata("moving_avg_rows")
+        self.moving_avg_rows = int(self.kite.getdata("moving_avg_rows"))
         self.or_breakout_range_point_diff = self.kite.getdata("or_breakout_range_point_diff")
     def historicalData(self,request):
-        # print(self.orb_range_start_time)
-        print(self.kite.historicalData(request, self.orb_range_start_time, self.orb_range_candle_time,self.ttoken, to_datetime= datetime.datetime.now()))
+        print(type(self.orb_range_start_time))
+        # print(self.kite.historicalData(request, self.orb_range_start_time, self.orb_range_candle_time,self.ttoken, to_datetime= datetime.datetime.now()))
     def itmBreakoutAlert(self, request):
         ### Establish your KITE connection here and be ready to call kite.historical_data.
         # kite = Kite()

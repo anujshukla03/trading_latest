@@ -419,7 +419,6 @@ def showinput(request):
 def updateinput(request,id):
     q = Query()
     data = db.search(q.id==id)
-
     data=data[0]
     return render(request,"home/updateinput.html",{"data":data})
 def update_saveinput(request):
@@ -435,12 +434,10 @@ def update_saveinput(request):
     ttoken = request.POST.get("ttoken")
     moving_avg_rows = request.POST.get("moving_avg_rows")
     or_breakout_range_point_diff = request.POST.get("or_breakout_range_point_diff")
- 
     data = {"orb_range_candle_time":orb_range_candle_time,"or_breakout_candle_time":or_breakout_candle_time,
             "orb_ma_h":orb_ma_h,"orb_ma_l":orb_ma_l,"orb_range_start_time":orb_range_start_time,
             "orb_retracement_time":orb_retracement_time,"hl_difference_points":hl_difference_points,"ttoken":ttoken,
             "moving_avg_rows":moving_avg_rows,"or_breakout_range_point_diff":or_breakout_range_point_diff}
-    print(data)
     q = Query()
     db.update(data,q.id==int(id))
     return HttpResponseRedirect("/showinput")

@@ -30,33 +30,45 @@
                 <div class="row" style="margin: 10px;">
                     <input type="hidden" name="id" value="{{ data.id }}">
                     <div class="form-group col-xs-4 col-sm-4 col-md-4">
-                        <label for="interval">interval</label>
-                        <input type="number" class="form-control" id="interval" placeholder="Enter name"
-                            name="interval" value="{{data.interval}}">
+                        <label for="orb_range_candle_time">orb_range_candle_time</label>
+                        <input type="number" class="form-control" id="orb_range_candle_time" placeholder="Enter name"
+                            name="orb_range_candle_time" value="{{data.orb_range_candle_time}}">
                     </div>
                     <div class="form-group col-xs-4 col-sm-4 col-md-4">
-                        <label for="ORB_candle_time">ORB_candle_time</label>
-                        <input type="number" class="form-control" id="ORB_candle_time" placeholder="" name="ORB_candle_time" value="{{data.ORB_candle_time}}">
+                        <label for="or_breakout_candle_time">or_breakout_candle_time</label>
+                        <input type="number" class="form-control" id="or_breakout_candle_time" placeholder="" name="or_breakout_candle_time" value="{{data.or_breakout_candle_time}}">
                     </div>
                     <div class="form-group col-xs-4 col-sm-4 col-md-4">
-                        <label for="high_window_size">high_window_size</label>
-                        <input type="number" class="form-control" id="high_window_size" placeholder="" name="high_window_size" value="{{data.high_window_size}}">
+                        <label for="orb_ma_h">orb_ma_h</label>
+                        <input type="number" class="form-control" id="orb_ma_h" placeholder="" name="orb_ma_h" value="{{data.orb_ma_h}}">
                     </div>
                     <div class="form-group col-xs-4 col-sm-4 col-md-4">
-                        <label for="low_window_size">low_window_size</label>
-                        <input type="number" class="form-control" id="low_window_size" placeholder="" name="low_window_size" value="{{data.low_window_size}}">
+                        <label for="orb_ma_l">orb_ma_l</label>
+                        <input type="number" class="form-control" id="orb_ma_l" placeholder="" name="orb_ma_l" value="{{data.orb_ma_l}}">
                     </div>
                     <div class="form-group col-xs-4 col-sm-4 col-md-4">
-                        <label for="from_datetime">from_datetime</label>
-                        <input type="datetime-local" class="form-control" id="from_datetime" placeholder="" name="from_datetime" value="{{data.from_datetime}}">
+                        <label for="orb_range_start_time">orb_range_start_time</label>
+                        <input type="datetime-local" class="form-control" id="orb_range_start_time" placeholder="" name="orb_range_start_time" value="{{data.orb_range_start_time}}">
                     </div>
                     <div class="form-group col-xs-4 col-sm-4 col-md-4">
-                        <label for="retracement">retracement time</label>
-                        <input type="number" class="form-control" id="retracement" placeholder="" name="retracement" value="{{data.retracement}}">
+                        <label for="orb_retracement_time">orb_retracement_time</label>
+                        <input type="number" class="form-control" id="orb_retracement_time" placeholder="" name="retracement" value="{{data.orb_retracement_time}}">
                     </div>
                     <div class="form-group col-xs-4 col-sm-4 col-md-4">
-                        <label for="candle_HL_difference_points">candle_HL_difference_points</label>
-                        <input type="number" class="form-control" id="candle_HL_difference_points" placeholder="" name="candle_HL_difference_points" value="{{data.candle_HL_difference_points}}">
+                        <label for="hl_difference_points">hl_difference_points</label>
+                        <input type="number" class="form-control" id="hl_difference_points" placeholder="" name="hl_difference_points" value="{{data.hl_difference_points}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="ttoken">ttoken</label>
+                        <input type="number" class="form-control" id="ttoken" placeholder="" name="ttoken" value="{{data.ttoken }}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="moving_avg_rows">moving_avg_rows</label>
+                        <input type="number" class="form-control" id="moving_avg_rows" placeholder="" name="moving_avg_rows" value="{{data.moving_avg_rows}}">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="or_breakout_range_point_diff">or_breakout_range_point_diff</label>
+                        <input type="number" class="form-control" id="or_breakout_range_point_diff" placeholder="" name="or_breakout_range_point_diff" value="{{data.or_breakout_range_point_diff}}">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-default" style="margin: 10px;">Submit</button>
