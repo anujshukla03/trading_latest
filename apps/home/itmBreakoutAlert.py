@@ -3,7 +3,7 @@ import numpy as np
 import datetime
 from typing import Optional, Tuple
 import time
-# from datetime import datetime
+from datetime import datetime
 from apps.home.kite_init import kiteInit
 import math
 
@@ -16,10 +16,8 @@ class breakoutLogic():
         self.or_breakout_candle_time = int(self.kite.getdata("or_breakout_candle_time"))
         self.orb_ma_h = self.kite.getdata("orb_ma_h")
         self.orb_ma_l = self.kite.getdata("orb_ma_l")
-        self.orb_range_start_time1 = self.kite.getdata("orb_range_start_time")
-        self.orb_range_start_time2 = str(self.orb_range_start_time1.replace("T"," ")+":00")
-        # self.orb_range_start_time = datetime.strptime(self.orb_range_start_time2, '%y-%m-%d %H:%M:%S')
-        self.orb_range_start_time=datetime.datetime.strptime(self.orb_range_start_time2, "%Y-%m-%d %H:%M:%S")
+        self.orb_range_start_time1 = str(self.kite.getdata("orb_range_start_time")+":00")
+        self.orb_range_start_time = datetime.strptime(self.orb_range_start_time1, '%H:%M:%S').time()
         self.orb_retracement_time = self.kite.getdata("orb_retracement_time")
         self.hl_difference_points = self.kite.getdata("hl_difference_points")
         self.ttoken = self.kite.getdata("ttoken")

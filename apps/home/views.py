@@ -307,9 +307,9 @@ def saveTradingAccount(request):
     ta.TA_Status = TA_Status
     ta.TA_Created_Date = datetime.datetime.now()
     ta.Created_By = Created_By
-   
     ta.save()
     return render(request,"home/createTradingAccount.html")
+
 
 
 
@@ -320,7 +320,6 @@ def showTradingAccount(request):
 def update_saveTradingAccount(request):
     id=request.POST.get("id")
     ta=TradingAccount.objects.get(id=id)
-
     UserID = user.objects.get(id=request.POST.get("UserID"))
     BrokerID =Broker.objects.get(id=request.POST.get("BrokerID"))
     Zerodha_UserID = request.POST.get("Zerodha_UserID")

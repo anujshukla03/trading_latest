@@ -28,10 +28,10 @@ class kiteInit:
         enctoken = get_enctoken(userid="RH6017",password='9454597201',twofa=otp)
         request.session["enctoken"]=enctoken
 
-    def historicalData(self,request,from_datetime,interval,instrument_token,to_datetime= datetime.datetime.now()):
+    def historicalData(self,request,ttoken,from_datetime,to_datetime,interval):
         enc=request.session["enctoken"]
         kite = KiteApp(enctoken=enc)
-        historical_data = pd.DataFrame(kite.historical_data(instrument_token, from_datetime, to_datetime, interval, continuous=False, oi=False))
+        historical_data = pd.DataFrame(kite.historical_data(ttoken, from_datetime, to_datetime, interval, continuous=False, oi=False))
         return historical_data
     
 
