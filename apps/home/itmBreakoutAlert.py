@@ -30,19 +30,6 @@ class breakoutLogic():
         ### Establish your KITE connection here and be ready to call kite.historical_data.
         # kite = Kite()
         # args = self.kite.input_params
-
-        # self.orb_range_start_time = datetime.time(9, 15)
-        # self.orb_range_candle_time = 15
-        # self.ttoken = 256265
-        # self.hl_difference_points = 30
-        # self.or_breakout_candle_time = args[4]
-        # self.orb_ma_h = args[5]
-        # self.orb_ma_l = args[6]
-        # self.moving_avg_rows = 3
-        # self.or_breakout_range_point_diff = args[7]
-        # self.orb_retracement_time = args[8]
-
-
         ### calculate number of days required for candle and add 5 day buffer.
 
         past_days_required = math.ceil(self.or_breakout_candle_time*self.moving_avg_rows/375)
