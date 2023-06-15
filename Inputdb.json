@@ -1,0 +1,17 @@
+{
+    "_default": {
+        "1": {
+            "id": 1,
+            "orb_range_candle_time": "15",
+            "or_breakout_candle_time": "3",
+            "orb_ma_h": "7",
+            "orb_ma_l": "7",
+            "orb_range_start_time": "09:15",
+            "orb_retracement_time": "3",
+            "hl_difference_points": "30",
+            "ttoken": "256265",
+            "moving_avg_rows": "3",
+            "or_breakout_range_point_diff": "20"
+        }
+    }
+}

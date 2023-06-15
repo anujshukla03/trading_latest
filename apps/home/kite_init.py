@@ -8,7 +8,7 @@ import pandas as pd
 
 class kiteInit:
     def __init__(self):
-        db=TinyDB('db.json')
+        db=TinyDB('Inputdb.json')
         q = Query()
         self.data = db.search(q.id==1)
         self.data=self.data[0]

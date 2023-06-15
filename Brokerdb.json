@@ -1,0 +1,24 @@
+{
+    "brokers": {
+        "1": {
+            "broker_name": "zerodha",
+            "broker_logo": "",
+            "created_date": "2023-06-15T10:11"
+        },
+        "2": {
+            "broker_name": "zerodha",
+            "broker_logo": "",
+            "created_date": "2023-06-15T10:11"
+        },
+        "3": {
+            "broker_name": "zerodha",
+            "broker_logo": "",
+            "created_date": "2023-06-15T10:11"
+        },
+        "4": {
+            "broker_name": "anuj",
+            "broker_logo": "",
+            "created_date": "20223-08-09T09:15"
+        }
+    }
+}

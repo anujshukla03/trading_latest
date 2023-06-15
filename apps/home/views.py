@@ -28,7 +28,8 @@ import time
 
 from threading import Timer
 
-db=TinyDB('db.json')
+Inputdb=TinyDB('Inputdb.json')
+Brokerdb = TinyDB('Brokerdb.json')
 
 # from_datetime =self.data.get("orb_range_start_time")
 # x=from_datetime.replace("T"," ")+":00" 
@@ -96,56 +97,6 @@ def profile(request):
     return render(request,'home/profile.html')
 
 
-#==============================================================================================broker
-
-
-def createBroker(request):
-    return render(request,'home/createBroker.html')
-
-def saveBroker(request):
-    broker_name = request.POST.get("broker_name")
-    broker_logo = request.POST.get("logo")
-    # created_date=request.POST.get("created_date")
-    b=Broker()
-    b.broker_name=broker_name
-    b.broker_logo=broker_logo
-    # b.created_date=created_date
-    # l=[{'broker_name':broker_name,'broker_logo':broker_logo,'created_date':created_date}]
-    # db.insert_multiple(l)
-    b.save()
-    return render(request,'home/createBroker.html')
-
-def showBroker(request):
-    data = Broker.objects.all().values()
-    # data=db.all()
-    return render(request, "home/showBroker.html", {"data": data})
-def update_saveBroker(request):
-    # broker=Query()
-    u = Broker()
-    id=request.POST.get("id")
-    # db.search(broker.id==id)
-    broker_name= request.POST.get("broker_name")
-    broker_logo=request.POST.get("logo")
-    # updated_date=request.POST.get("updated_date")
-    # l=[{'broker_name':broker_name,'broker_logo':broker_logo,'updated_date':updated_date}]
-    # db.insert_multiple(l)
-    u.broker_name = broker_name
-    u.broker_logo = broker_logo
-    # u.updated_date = updated_date
-    u.save()
-    return HttpResponseRedirect("/showBroker")
-def deleteBroker(request,id):
-    # broker=Query()
-    # db.remove(broker.id==id)
-    delete1 = Broker.objects.get(id=id)
-    delete1.delete()
-    return HttpResponseRedirect("/showBroker")
-
-def updateBroker(request,id):
-    #broker=Query()
-    data=Broker.objects.get(id=id)
-    #cat=db.search(broker.id==id)
-    return render(request,"home/updateBroker.html",{"data":data})
 
 #===============================================================================================user
 
@@ -395,7 +346,7 @@ def saveinput(request):
     ttoken = request.POST.get("ttoken")
     moving_avg_rows = request.POST.get("moving_avg_rows")
     or_breakout_range_point_diff = request.POST.get("or_breakout_range_point_diff")
-    data=db.all()
+    data=Inputdb.all()
     if len(data)>0:
         for x in data:
             id=int(x.get("id"))+1
@@ -408,16 +359,17 @@ def saveinput(request):
                  "orb_ma_h":orb_ma_h,"orb_ma_l":orb_ma_l,"orb_range_start_time":orb_range_start_time,
                  "orb_retracement_time":orb_retracement_time,"hl_difference_points":hl_difference_points,"ttoken":ttoken,
                  "moving_avg_rows":moving_avg_rows,"or_breakout_range_point_diff":or_breakout_range_point_diff}]
-    db.insert_multiple(data)
+    Inputdb.insert_multiple(data)
     return render(request , "home/input.html" , )
+
 def showinput(request):
     q = Query()
-    data = db.all()
+    data = Inputdb.all()
     return render(request , 'home/showinput.html',{"data":data})
 
 def updateinput(request,id):
     q = Query()
-    data = db.search(q.id==id)
+    data = Inputdb.search(q.id==id)
     data=data[0]
     return render(request,"home/updateinput.html",{"data":data})
 def update_saveinput(request):
@@ -438,16 +390,71 @@ def update_saveinput(request):
             "orb_retracement_time":orb_retracement_time,"hl_difference_points":hl_difference_points,"ttoken":ttoken,
             "moving_avg_rows":moving_avg_rows,"or_breakout_range_point_diff":or_breakout_range_point_diff}
     q = Query()
-    db.update(data,q.id==int(id))
+    Inputdb.update(data,q.id==int(id))
     return HttpResponseRedirect("/showinput")
 
 def deleteinput(request,id):
-    db=TinyDB('db.json')
+    # Inputdb=TinyDB('Inputdb.json')
     b=Query()
-    db.remove(b.id==id)
+    Inputdb.remove(b.id==id)
     # delete1 = Broker.objects.get(id=id)
     # delete1.delete()
     return HttpResponseRedirect("/showinput")
+
+#==============================================================================================broker
+
+
+def createBroker(request):
+    return render(request,'home/createBroker.html')
+
+def saveBroker(request):
+    broker_name = request.POST.get("broker_name")
+    broker_logo = request.POST.get("logo")
+    created_date=request.POST.get("created_date")
+    # b=Broker()
+    # b.broker_name=broker_name
+    # b.broker_logo=broker_logo
+    # b.created_date=created_date
+    brokers=Brokerdb.table("brokers")
+    data={'broker_name':broker_name,'broker_logo':broker_logo,'created_date':created_date}
+    brokers.insert(data)
+    # b.save()
+    return render(request,'home/createBroker.html')
+
+def showBroker(request):
+    q = Query()
+    brokers=Brokerdb.table("brokers")
+    # data = Broker.objects.all().values()
+    data=brokers.all()
+    return render(request,"home/showBroker.html",{"data": data})
+def update_saveBroker(request):
+    broker=Query()
+    # u = Broker()
+    id=request.POST.get("id")
+    Brokerdb.search(broker.id==id)
+    broker_name= request.POST.get("broker_name")
+    broker_logo=request.POST.get("logo")
+    updated_date=request.POST.get("updated_date")
+    data={'broker_name':broker_name,'broker_logo':broker_logo,'updated_date':updated_date}
+    Brokerdb.insert_multiple(data)
+    # u.broker_name = broker_name
+    # u.broker_logo = broker_logo
+    # u.updated_date = updated_date
+    # u.save()
+    return HttpResponseRedirect("/showBroker")
+def deleteBroker(request,id):
+    broker=Query()
+    Brokerdb.remove(broker.id==id)
+    # delete1 = Broker.objects.get(id=id)
+    # delete1.delete()
+    return HttpResponseRedirect("/showBroker")
+
+def updateBroker(request,id):
+    broker=Query()
+    # data=Broker.objects.get(id=id)
+    data=Brokerdb.search(broker.id==id)
+    return render(request,"home/updateBroker.html",{"data":data})
+
 
 #=========================================================================================================================ORB
 
