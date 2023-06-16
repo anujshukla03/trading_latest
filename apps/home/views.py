@@ -411,13 +411,16 @@ def saveBroker(request):
     broker_name = request.POST.get("broker_name")
     broker_logo = request.POST.get("logo")
     created_date=request.POST.get("created_date")
-    # b=Broker()
-    # b.broker_name=broker_name
-    # b.broker_logo=broker_logo
-    # b.created_date=created_date
+   
     brokers=Brokerdb.table("brokers")
-    data={'broker_name':broker_name,'broker_logo':broker_logo,'created_date':created_date}
-    brokers.insert(data)
+    data = Brokerdb.all()
+    if len(data)>0:
+        for x in data:
+            id=int(x.get("id"))+1
+            data={'id':id,'broker_name':broker_name,'broker_logo':broker_logo,'created_date':created_date}
+    # else:
+    #         data={'id':id,'broker_name':broker_name,'broker_logo':broker_logo,'created_date':created_date}
+    brokers.insert_multiple(data)
     # b.save()
     return render(request,'home/createBroker.html')
 
@@ -427,20 +430,24 @@ def showBroker(request):
     # data = Broker.objects.all().values()
     data=brokers.all()
     return render(request,"home/showBroker.html",{"data": data})
-def update_saveBroker(request):
+
+def updateBroker(request,id):
     broker=Query()
+    # data=Broker.objects.get(id=id)
+    data=Brokerdb.search(broker.id==id)
+    return render(request,"home/updateBroker.html",{"data":data})
+def update_saveBroker(request):
+    q=Query()
     # u = Broker()
     id=request.POST.get("id")
-    Brokerdb.search(broker.id==id)
+    Brokerdb.search(q.id==id)
     broker_name= request.POST.get("broker_name")
     broker_logo=request.POST.get("logo")
     updated_date=request.POST.get("updated_date")
-    data={'broker_name':broker_name,'broker_logo':broker_logo,'updated_date':updated_date}
-    Brokerdb.insert_multiple(data)
-    # u.broker_name = broker_name
-    # u.broker_logo = broker_logo
-    # u.updated_date = updated_date
-    # u.save()
+    data={'id':id,'broker_name':broker_name,'broker_logo':broker_logo,'updated_date':updated_date}
+    brokers=Brokerdb.table("brokers")
+
+    brokers.update(data,q.id==int(id))
     return HttpResponseRedirect("/showBroker")
 def deleteBroker(request,id):
     broker=Query()
@@ -448,12 +455,6 @@ def deleteBroker(request,id):
     # delete1 = Broker.objects.get(id=id)
     # delete1.delete()
     return HttpResponseRedirect("/showBroker")
-
-def updateBroker(request,id):
-    broker=Query()
-    # data=Broker.objects.get(id=id)
-    data=Brokerdb.search(broker.id==id)
-    return render(request,"home/updateBroker.html",{"data":data})
 
 
 #=========================================================================================================================ORB

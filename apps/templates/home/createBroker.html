@@ -26,7 +26,7 @@
 
 <form action="{% url 'saveBroker' %}"  id="form" method="post" enctype="multipart/form-data" class="has-validation-callback">
   {% csrf_token %}
-  <input type="hidden" name="id" value="">
+    <input type="hidden" name="id" value="">
     <div class="form-group">
       <label for="broker_name">Broker Name:</label>
       <input type="text" class="form-control" id="broker_name" placeholder="Enter name" name="broker_name">

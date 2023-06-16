@@ -23,6 +23,7 @@ class breakoutLogic():
         self.ttoken = self.kite.getdata("ttoken")
         self.moving_avg_rows = int(self.kite.getdata("moving_avg_rows"))
         self.or_breakout_range_point_diff = int(self.kite.getdata("or_breakout_range_point_diff"))
+        
     def historicalData(self,request):
         print("orb_range_candle_time:", self.orb_range_candle_time, "(", type(self.orb_range_candle_time) ,")")
         print("or_breakout_candle_time:", self.or_breakout_candle_time, "(", type(self.or_breakout_candle_time), ")")
