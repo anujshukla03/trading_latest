@@ -8,10 +8,11 @@ import pandas as pd
 
 class kiteInit:
     def __init__(self):
-        db=TinyDB('Inputdb.json')
+        Inputdb=TinyDB('Inputdb.json')
+        inputs = Inputdb.table("inputs")
         q = Query()
-        self.data = db.search(q.id==1)
-        self.data=self.data[0]
+        self.data = inputs.search(q.id==1)
+        self.data = self.data[0]
         # from_datetime=self.data.get("from_datetime")
         # x=from_datetime.replace("T"," ")+":00"
         # print(self.data)
