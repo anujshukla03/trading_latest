@@ -42,7 +42,6 @@
                                 <th scope="col"style="width: 200px;">status</th>
                                 <th scope="col"style="width: 150px;">created_date</th>
                                 <th scope="col"style="width: 150px;">updated_date</th>
-
                                 <th scope="col"style="width: 217.767px;">action</th>
 
                             </tr>
@@ -52,7 +51,7 @@
                             <tr>
                                 
                                 <td scope="row">{{ x.user_name }}</td>
-                                <td scope="row">{{ x.user_password }}</td>
+                                <td scope="row">{{ x.user_password }}**********</td>
                                 <td scope="row">{{ x.contact_no}}</td>
                                 <td scope="row">{{ x.email}}</td>
                                 <td scope="row">{{ x.status}}</td>
@@ -60,11 +59,10 @@
                                 <td scope="row">{{ x.updated_date}}</td>
                                 <td>
                                     <div class="btn-group">
-                                      <a href="{% url 'updateUser' id=x.id %}" class="btn btn-success"><i
+                                      <a href="{% url 'updateUser' x.doc_id %}" class="btn btn-success"><i
                                           class="fa fa-edit"></i></a>
-                                      <a href="{% url 'deleteUser' id=x.id %}" onclick="return confirm('Are you sure to delete..?')"
+                                      <a href="{% url 'deleteUser' x.doc_id %}" onclick="return confirm('Are you sure to delete..?')"
                                         class="btn btn-danger"><i class="fa fa-remove"></i></a>
-          
                                     </div>
                                   </td>
                             </tr>

@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-import datetime,json
+import datetime, json
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -14,9 +14,11 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate
+from django.conf import settings
 from django.contrib.auth import login as auth_login
-from apps.home.models import Broker, user,strategy,TradingAccount,Input
-from tinydb import TinyDB,Query
+
+# from apps.home.models import Broker, user,strategy,TradingAccount,Input
+from tinydb import TinyDB, Query
 from json import dumps
 from apps.home.Constants import BASE_URL
 from apps.home.kite_init import kiteInit
@@ -25,14 +27,23 @@ from apps.home.kite_trade import *
 import datetime
 import json
 import time
-
+from django.core.files.storage import FileSystemStorage
 from threading import Timer
 
-Inputdb=TinyDB('Inputdb.json')
-Brokerdb = TinyDB('Brokerdb.json')
+Inputdb = TinyDB("Inputdb.json")
+inputs = Inputdb.table("inputs")
+
+Brokerdb = TinyDB("Brokerdb.json")
+brokers = Brokerdb.table("brokers")
+
+Userdb = TinyDB("Userdb.json")
+
+StrategyDb = TinyDB("StrategyDb.json")
+
+Trading_AccountDb = TinyDB("Trading_AccountDb.json")
 
 # from_datetime =self.data.get("orb_range_start_time")
-# x=from_datetime.replace("T"," ")+":00" 
+# x=from_datetime.replace("T"," ")+":00"
 # interval = "15minute"
 # q = Query()
 # interval = db.search(q.interval)
@@ -43,299 +54,68 @@ Brokerdb = TinyDB('Brokerdb.json')
 # retracement=db.search(q.retracement)
 # candle_HL_difference_points=db.search(q.candle_HL_difference_points)
 
+
 def homepage(request):
-    return render(request,'home/index.html')
+    return render(request, "home/index.html")
+
 
 def register(request):
-    if request.method =='POST':
-          username=request.POST.get('Username')
-          email=request.POST.get('email')
-          password=request.POST.get('password')
-          cfm_pass=request.POST.get('cfm_pass')
+    if request.method == "POST":
+        username = request.POST.get("Username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        cfm_pass = request.POST.get("cfm_pass")
 
-          if password!=cfm_pass:
-               messages.error(request, "Your password and confirm password are not same.")
-               
-          else:
-             my_user=User.objects.create_user(username,email,password)
-             my_user.save()
-             return redirect('home/login')
-    return render(request, 'accounts/register.html')
+        if password != cfm_pass:
+            messages.error(request, "Your password and confirm password are not same.")
 
+        else:
+            my_user = User.objects.create_user(username, email, password)
+            my_user.save()
+            return redirect("home/login")
+    return render(request, "accounts/register.html")
 
 
 def login(request):
     tradelogic = kiteInit()
     breakout_l = breakoutLogic()
-    if request.method == 'POST':
-        name=request.POST.get('name')
-        pass1=request.POST.get('password')
-        user=authenticate(request,username=name, password=pass1)
+    if request.method == "POST":
+        name = request.POST.get("name")
+        pass1 = request.POST.get("password")
+        user = authenticate(request, username=name, password=pass1)
         if user is not None:
-            auth_login(request,user)
-            return redirect('/homepage')
+            auth_login(request, user)
+            return redirect("/homepage")
         else:
             return HttpResponse("incorrect")
-        
+
     # tradelogic.getData()
     breakout_l.__init__()
     breakout_l.historicalData(request)
     tradelogic.dataAuth(request)
     # breakout_l.itmBreakoutAlert(request)
     # print(tradelogic.historicalData(request=request,from_datetime=from_datetime,interval=interval,
-    #                                 to_datetime = datetime.datetime.now(), 
+    #                                 to_datetime = datetime.datetime.now(),
     #                                 instrument_token = 256265))
     # print(tradelogic.breakoutCandle(request=request,from_datetime=from_datetime,ORB_candle_time=ORB_candle_time))
     # tradelogic.moving_average_high(request=request,high_window_size=high_window_size)
     # tradelogic.moving_average_low(request=request,low_window_size=low_window_size)
     # tradelogic.top_range_breakout(request)
-    return render(request, 'home/login.html')
-
+    return render(request, "home/login.html")
 
 
 def profile(request):
-    return render(request,'home/profile.html')
+    return render(request, "home/profile.html")
 
 
-
-#===============================================================================================user
-
-
-def createUser(request):
-    # db=TinyDB('db2.json')
-    return render(request,'home/createUser.html')
-
-def saveUser(request):
-    # db=TinyDB('db2.json')
-    user_name= request.POST.get("user_name")
-    password = request.POST.get("password")
-    contact_no= request.POST.get("contact_no")
-    email= request.POST.get("email")
-    status= request.POST.get("status")
-    created_date=request.POST.get("created_date")
-    # m=[{'user_name':user_name,'password':password,'contact_no':contact_no,'email':email,'status':status,'created_date':created_date}]
-    # db.insert_multiple(m)
-    b=user()
-    b.user_name=user_name;
-    b.email=email;
-    b.contact_no=contact_no;
-    b.user_password=password;
-    b.status=status;
-    b.created_date=created_date
-    # b.created_date=datetime.datetime.now()
-    b.save()
-    return render(request,'home/createUser.html')
-
-
-
-def showUser(request):
-    # db=TinyDB('db2.json')
-    # data = db.all()
-    data = user.objects.all().values()
-    return render(request, "home/showUser.html", {"data": data})
-
-def update_saveUser(request):
-    id=request.POST.get("id")
-    u=user.objects.get(id=id)
-    u.user_name= request.POST.get("user_name");
-    u.email=request.POST.get("email");
-    u.contact_no=request.POST.get("contact_no");
-    u.user_password=request.POST.get("password");
-    u.status=request.POST.get("status");
-    u.updated_date=datetime.datetime.now()
-    u.save()
-    return HttpResponseRedirect("/showUser")
-def deleteUser(request,id):
-    delete1 = user.objects.get(id=id)
-    delete1.delete()
-    return HttpResponseRedirect("/showUser")
-
-def updateUser(request,id):
-    data=user.objects.get(id=id)
-    return render(request,"home/updateUser.html",{"data":data})
-
-
-#========================================================================================================Strategy
-
-
-
-def createStrategy(request):
-    return render(request,'home/createStrategy.html')
-
-def saveStrategy(request):
-    strategy_name= request.POST.get("strategy_name")
-    strategy_type = request.POST.get("strategy_type")
-    status= request.POST.get("status")
-    created_date=datetime.datetime.now()
-    # m=[{'strategy_name':strategy_name,'strategy_type':strategy_type,'status':status,'created_date':created_date}]
-    # db.insert_multiple(m)
-    b=strategy()
-    b.strategy_name=strategy_name;
-    b.strategy_type=strategy_type;
-    b.status=status;
-    b.created_date = created_date
-    # b.created_date=datetime.datetime.now()
-    b.save()
-    return render(request,'home/createStrategy.html')
-
-
-
-def showStrategy(request):
-    data = strategy.objects.all().values()
-    return render(request, "home/showStrategy.html", {"data": data})
-
-def update_saveStrategy(request):
-    id=request.POST.get("id")
-    u=strategy.objects.get(id=id)
-    u.strategy_name= request.POST.get("strategy_name");
-    u.strategy_type=request.POST.get("strategy_type");
-    u.status=request.POST.get("status");
-    u.updated_date=datetime.datetime.now()
-    u.save()
-    return HttpResponseRedirect("/showStrategy")
-def deleteStrategy(request,id):
-    delete1 = strategy.objects.get(id=id)
-    delete1.delete()
-    return HttpResponseRedirect("/showStrategy")
-
-def updateStrategy(request,id):
-    data=strategy.objects.get(id=id)
-    return render(request,"home/updateStrategy.html",{"data":data})
-
-
-
-#=========================================================================================================trading account
-
-def createTradingAccount(request):
-    user_data=user.objects.all().values()
-    li=[]
-    for x in user_data:
-        li.append(x)
-    broker_data=Broker.objects.all().values()
-    return render(request, "home/createTradingAccount.html", {"data":{"user_data":li,"broker_data":broker_data}})
-
-def saveTradingAccount(request):
-    ta = TradingAccount()
-    UserID = user.objects.get(id=request.POST.get("UserID"))
-    BrokerID =Broker.objects.get(id=request.POST.get("BrokerID"))
-    Zerodha_UserID = request.POST.get("Zerodha_UserID")
-    Zerodha_Password = request.POST.get("Zerodha_Password")
-    Zerodha_TOTP_Key = request.POST.get("Zerodha_TOTP_Key")
-    IIFL_Email_id = request.POST.get("IIFL_Email_id")
-    IIFL_Contact_Number = request.POST.get("IIFL_Contact_Number")
-    IIFL_App_Source = request.POST.get("IIFL_App_Source")
-    IIFL_User_Key = request.POST.get("IIFL_User_Key")
-    IIFL_User_id = request.POST.get("IIFL_User_id")
-    IIFL_Password = request.POST.get("IIFL_Password")
-    IIFL_Encry_Key = request.POST.get("IIFL_Encry_Key")
-    IIFL_OcpApimSubscription = request.POST.get("IIFL_OcpApimSubscription")
-    IIFL_My2Pin = request.POST.get("IIFL_My2Pin")
-    IIFL_ClientCode = request.POST.get("IIFL_ClientCode")
-    IIFL_cpass = request.POST.get("IIFL_cpass")
-    Kotak_Key = request.POST.get("Kotak_Key")
-    Kotak_Secret = request.POST.get("Kotak_Secret")
-    TA_Status = request.POST.get("TA_Status")
-
-    Created_By = request.POST.get("Created_By")
-    ta.UserID = UserID
-    ta.BrokerID = BrokerID
-    ta.Zerodha_UserID = Zerodha_UserID
-    ta.Zerodha_Password = Zerodha_Password
-    ta.Zerodha_TOTP_Key = Zerodha_TOTP_Key
-    ta.IIFL_Email_id = IIFL_Email_id
-    ta.IIFL_Contact_Number = IIFL_Contact_Number
-    ta.IIFL_App_Source = IIFL_App_Source
-    ta.IIFL_User_Key = IIFL_User_Key
-    ta.IIFL_User_id = IIFL_User_id
-    ta.IIFL_Password = IIFL_Password
-    ta.IIFL_Encry_Key = IIFL_Encry_Key
-    ta.IIFL_OcpApimSubscription = IIFL_OcpApimSubscription
-    ta.IIFL_My2Pin = IIFL_My2Pin
-    ta.IIFL_ClientCode = IIFL_ClientCode
-    ta.IIFL_cpass = IIFL_cpass
-    ta.Kotak_Key = Kotak_Key
-    ta.Kotak_Secret = Kotak_Secret
-    ta.TA_Status = TA_Status
-    ta.TA_Created_Date = datetime.datetime.now()
-    ta.Created_By = Created_By
-    ta.save()
-    return render(request,"home/createTradingAccount.html")
-
-
-
-
-def showTradingAccount(request):
-    data = TradingAccount.objects.all().values()
-    return render(request, "home/showTradingAccount.html", {"data": data})
-
-def update_saveTradingAccount(request):
-    id=request.POST.get("id")
-    ta=TradingAccount.objects.get(id=id)
-    UserID = user.objects.get(id=request.POST.get("UserID"))
-    BrokerID =Broker.objects.get(id=request.POST.get("BrokerID"))
-    Zerodha_UserID = request.POST.get("Zerodha_UserID")
-    Zerodha_Password = request.POST.get("Zerodha_Password")
-    Zerodha_TOTP_Key = request.POST.get("Zerodha_TOTP_Key")
-    IIFL_Email_id = request.POST.get("IIFL_Email_id")
-    IIFL_Contact_Number = request.POST.get("IIFL_Contact_Number")
-    IIFL_App_Source = request.POST.get("IIFL_App_Source")
-    IIFL_User_Key = request.POST.get("IIFL_User_Key")
-    IIFL_User_id = request.POST.get("IIFL_User_id")
-    IIFL_Password = request.POST.get("IIFL_Password")
-    IIFL_Encry_Key = request.POST.get("IIFL_Encry_Key")
-    IIFL_OcpApimSubscription = request.POST.get("IIFL_OcpApimSubscription")
-    IIFL_My2Pin = request.POST.get("IIFL_My2Pin")
-    IIFL_ClientCode = request.POST.get("IIFL_ClientCode")
-    IIFL_cpass = request.POST.get("IIFL_cpass")
-    Kotak_Key = request.POST.get("Kotak_Key")
-    Kotak_Secret = request.POST.get("Kotak_Secret")
-    TA_Status = request.POST.get("TA_Status")
-    
-    Created_By = request.POST.get("Created_By")
-    ta.UserID = UserID
-    ta.BrokerID = BrokerID
-    ta.Zerodha_UserID = Zerodha_UserID
-    ta.Zerodha_Password = Zerodha_Password
-    ta.Zerodha_TOTP_Key = Zerodha_TOTP_Key
-    ta.IIFL_Email_id = IIFL_Email_id
-    ta.IIFL_Contact_Number = IIFL_Contact_Number
-    ta.IIFL_App_Source = IIFL_App_Source
-    ta.IIFL_User_Key = IIFL_User_Key
-    ta.IIFL_User_id = IIFL_User_id
-    ta.IIFL_Password = IIFL_Password
-    ta.IIFL_Encry_Key = IIFL_Encry_Key
-    ta.IIFL_OcpApimSubscription = IIFL_OcpApimSubscription
-    ta.IIFL_My2Pin = IIFL_My2Pin
-    ta.IIFL_ClientCode = IIFL_ClientCode
-    ta.IIFL_cpass = IIFL_cpass
-    ta.Kotak_Key = Kotak_Key
-    ta.Kotak_Secret = Kotak_Secret
-    ta.TA_Status = TA_Status
-    ta.Created_By = Created_By
-    ta.Updated_Date=datetime.datetime.now()
-    ta.save()
-    return HttpResponseRedirect("/showTradingAccount")
-
-def deleteTradingAccount(request,id):
-    delete1 = TradingAccount.objects.get(id=id)
-    delete1.delete()
-    return HttpResponseRedirect("/showTradingAccount")
-
-def updateTradingAccount(request,id):
-    user_data=user.objects.all().values()
-    li=[]
-    for x in user_data:
-        li.append(x)
-    broker_data=Broker.objects.all().values()
-    data1=TradingAccount.objects.get(id=id)
-    return render(request,"home/updateTradingAccount.html",{"data1":data1,"data":{"user_data":li,"broker_data":broker_data}})
-
-
-#=================================================================================================================input views
+# =================================================================================================================input views
 def createinput(request):
-    return render(request , "home/input.html")
+    return render(request, "home/input.html")
+
+
 def saveinput(request):
-    u = Input()
+    strategy_name = request.POST.get("strategy_name")
+    strategy_id = request.POST.get("strategy_id")
     orb_range_candle_time = request.POST.get("orb_range_candle_time")
     or_breakout_candle_time = request.POST.get("or_breakout_candle_time")
     orb_ma_h = request.POST.get("orb_ma_h")
@@ -346,35 +126,69 @@ def saveinput(request):
     ttoken = request.POST.get("ttoken")
     moving_avg_rows = request.POST.get("moving_avg_rows")
     or_breakout_range_point_diff = request.POST.get("or_breakout_range_point_diff")
-    data=Inputdb.all()
-    if len(data)>0:
+    data = inputs.all()
+    if len(data) > 0:
         for x in data:
-            id=int(x.get("id"))+1
-        data=[{"id":id,"orb_range_candle_time":orb_range_candle_time,"or_breakout_candle_time":or_breakout_candle_time,
-               "orb_ma_h":orb_ma_h,"orb_ma_l":orb_ma_l,"orb_range_start_time":orb_range_start_time,
-               "orb_retracement_time":orb_retracement_time,"hl_difference_points":hl_difference_points,"ttoken":ttoken,
-               "moving_avg_rows":moving_avg_rows,"or_breakout_range_point_diff":or_breakout_range_point_diff}]
+            id = int(x.get("id")) + 1
+        data = [
+            {
+                "id": id,
+                "strategy_name":strategy_name,
+                "strategy_id":strategy_id,
+                "orb_range_candle_time": orb_range_candle_time,
+                "or_breakout_candle_time": or_breakout_candle_time,
+                "orb_ma_h": orb_ma_h,
+                "orb_ma_l": orb_ma_l,
+                "orb_range_start_time": orb_range_start_time,
+                "orb_retracement_time": orb_retracement_time,
+                "hl_difference_points": hl_difference_points,
+                "ttoken": ttoken,
+                "moving_avg_rows": moving_avg_rows,
+                "or_breakout_range_point_diff": or_breakout_range_point_diff,
+            }
+        ]
     else:
-        data = [{"id":1,"orb_range_candle_time":orb_range_candle_time,"or_breakout_candle_time":or_breakout_candle_time,
-                 "orb_ma_h":orb_ma_h,"orb_ma_l":orb_ma_l,"orb_range_start_time":orb_range_start_time,
-                 "orb_retracement_time":orb_retracement_time,"hl_difference_points":hl_difference_points,"ttoken":ttoken,
-                 "moving_avg_rows":moving_avg_rows,"or_breakout_range_point_diff":or_breakout_range_point_diff}]
-    Inputdb.insert_multiple(data)
-    return render(request , "home/input.html" , )
+        data = [
+            {
+                "id": 1,
+                "strategy_name":strategy_name,
+                "strategy_id":strategy_id,
+                "orb_range_candle_time": orb_range_candle_time,
+                "or_breakout_candle_time": or_breakout_candle_time,
+                "orb_ma_h": orb_ma_h,
+                "orb_ma_l": orb_ma_l,
+                "orb_range_start_time": orb_range_start_time,
+                "orb_retracement_time": orb_retracement_time,
+                "hl_difference_points": hl_difference_points,
+                "ttoken": ttoken,
+                "moving_avg_rows": moving_avg_rows,
+                "or_breakout_range_point_diff": or_breakout_range_point_diff,
+            }
+        ]
+    inputs.insert_multiple(data)
+    return render(
+        request,
+        "home/input.html",
+    )
+
 
 def showinput(request):
     q = Query()
-    data = Inputdb.all()
-    return render(request , 'home/showinput.html',{"data":data})
+    data = inputs.all()
+    return render(request, "home/showinput.html", {"data": data})
 
-def updateinput(request,id):
+
+def updateinput(request, id):
     q = Query()
-    data = Inputdb.search(q.id==id)
-    data=data[0]
-    return render(request,"home/updateinput.html",{"data":data})
+    data = inputs.search(q.id == id)
+    data = data[0]
+    return render(request, "home/updateinput.html", {"data": data})
+
+
 def update_saveinput(request):
-    u = Input()
     id = request.POST.get("id")
+    strategy_name = request.POST.get("strategy_name")
+    strategy_id = request.POST.get("strategy_id")
     orb_range_candle_time = request.POST.get("orb_range_candle_time")
     or_breakout_candle_time = request.POST.get("or_breakout_candle_time")
     orb_ma_h = request.POST.get("orb_ma_h")
@@ -385,90 +199,304 @@ def update_saveinput(request):
     ttoken = request.POST.get("ttoken")
     moving_avg_rows = request.POST.get("moving_avg_rows")
     or_breakout_range_point_diff = request.POST.get("or_breakout_range_point_diff")
-    data = {"orb_range_candle_time":orb_range_candle_time,"or_breakout_candle_time":or_breakout_candle_time,
-            "orb_ma_h":orb_ma_h,"orb_ma_l":orb_ma_l,"orb_range_start_time":orb_range_start_time,
-            "orb_retracement_time":orb_retracement_time,"hl_difference_points":hl_difference_points,"ttoken":ttoken,
-            "moving_avg_rows":moving_avg_rows,"or_breakout_range_point_diff":or_breakout_range_point_diff}
+    data = {
+        "strategy_name":strategy_name,
+        "strategy_id":strategy_id,
+        "orb_range_candle_time": orb_range_candle_time,
+        "or_breakout_candle_time": or_breakout_candle_time,
+        "orb_ma_h": orb_ma_h,
+        "orb_ma_l": orb_ma_l,
+        "orb_range_start_time": orb_range_start_time,
+        "orb_retracement_time": orb_retracement_time,
+        "hl_difference_points": hl_difference_points,
+        "ttoken": ttoken,
+        "moving_avg_rows": moving_avg_rows,
+        "or_breakout_range_point_diff": or_breakout_range_point_diff,
+    }
     q = Query()
-    Inputdb.update(data,q.id==int(id))
+    inputs.update(data, q.id == int(id))
     return HttpResponseRedirect("/showinput")
 
-def deleteinput(request,id):
+
+def deleteinput(request, id):
     # Inputdb=TinyDB('Inputdb.json')
-    b=Query()
-    Inputdb.remove(b.id==id)
+    b = Query()
+    inputs.remove(b.id == id)
     # delete1 = Broker.objects.get(id=id)
     # delete1.delete()
     return HttpResponseRedirect("/showinput")
 
-#==============================================================================================broker
+
+#===========================================================================================================broker
+def showBroker(request):
+    data = brokers.all()
+    print(data[0]["broker_name"])
+    print(settings.MEDIA_ROOT)
+    return render(request, "home/showBroker.html", {"data": data, "settings":settings})
 
 
 def createBroker(request):
-    return render(request,'home/createBroker.html')
+    if request.method == "POST":
+        broker_name = request.POST["broker_name"]
+        created_date = request.POST["created_date"]
+        broker_logo = request.FILES["broker_logo"]
+        fs = FileSystemStorage()
+        filename = fs.save(broker_logo.name, broker_logo)
+        uploaded_file_url = fs.url(filename)
+        print(uploaded_file_url)
 
-def saveBroker(request):
-    broker_name = request.POST.get("broker_name")
-    broker_logo = request.POST.get("logo")
-    created_date=request.POST.get("created_date")
-   
-    brokers=Brokerdb.table("brokers")
-    data = Brokerdb.all()
-    if len(data)>0:
-        for x in data:
-            id=int(x.get("id"))+1
-            data={'id':id,'broker_name':broker_name,'broker_logo':broker_logo,'created_date':created_date}
-    # else:
-    #         data={'id':id,'broker_name':broker_name,'broker_logo':broker_logo,'created_date':created_date}
-    brokers.insert_multiple(data)
-    # b.save()
-    return render(request,'home/createBroker.html')
-
-def showBroker(request):
-    q = Query()
-    brokers=Brokerdb.table("brokers")
-    # data = Broker.objects.all().values()
-    data=brokers.all()
-    return render(request,"home/showBroker.html",{"data": data})
-
-def updateBroker(request,id):
-    broker=Query()
-    # data=Broker.objects.get(id=id)
-    data=Brokerdb.search(broker.id==id)
-    return render(request,"home/updateBroker.html",{"data":data})
-def update_saveBroker(request):
-    q=Query()
-    # u = Broker()
-    id=request.POST.get("id")
-    Brokerdb.search(q.id==id)
-    broker_name= request.POST.get("broker_name")
-    broker_logo=request.POST.get("logo")
-    updated_date=request.POST.get("updated_date")
-    data={'id':id,'broker_name':broker_name,'broker_logo':broker_logo,'updated_date':updated_date}
-    brokers=Brokerdb.table("brokers")
-
-    brokers.update(data,q.id==int(id))
-    return HttpResponseRedirect("/showBroker")
-def deleteBroker(request,id):
-    broker=Query()
-    Brokerdb.remove(broker.id==id)
-    # delete1 = Broker.objects.get(id=id)
-    # delete1.delete()
-    return HttpResponseRedirect("/showBroker")
+        brokers.insert(
+            {
+                "broker_name": broker_name,
+                "broker_logo": uploaded_file_url,
+                "created_date": created_date,
+            }
+        )
+        return redirect("/showBroker")
+    return render(request, "home/createBroker.html")
 
 
-#=========================================================================================================================ORB
+def updateBroker(request, id):
+    data = brokers.get(doc_id=id)
+    if request.method == "POST":
+        broker_name = request.POST["broker_name"]
+        created_date = request.POST["created_date"]
+        broker_logo = request.FILES["broker_logo"]
+        fs = FileSystemStorage()
+        filename = fs.save(broker_logo.name, broker_logo)  
+        uploaded_file_url = fs.url(filename)
+        brokers.update(
+            {
+                "id": id,
+                "broker_name": broker_name,
+                "broker_logo": uploaded_file_url,
+                "created_date": created_date,
+            },
+            doc_ids=[id],
+        )
+        return redirect("/showBroker")
+    return render(request, "home/updateBroker.html", {"data": data})
 
-# def ticker(request):
-#     calc(request)
-#     return HttpResponse("avsd")
-# def calc(request):
-#     tradelogic = TradeLogic()
-#     i=0
-#     while True:
-#         i=i+1
-#         if i > 10:
-#             break
-#         tradelogic.top_range_breakout(request)
-#         time.sleep(1)
 
+def deleteBroker(request, id):
+    brokers.remove(doc_ids=[id])
+    return redirect("/showBroker")
+
+#=================================================================================================================user
+
+users = Userdb.table("users")
+def createUser(request):
+    if request.method == "POST":
+        user_name = request.POST["user_name"]
+        password = request.POST["password"]
+        contact_no = request.POST["contact_no"]
+        email = request.POST["email"]
+        status = request.POST["status"]
+        created_date = request.POST["created_date"]
+        users.insert(
+            {
+                "user_name": user_name,
+                "password": password,
+                "contact_no": contact_no,
+                "email": email,
+                "status": status,
+                "created_date": created_date,
+            }
+        )
+        return redirect("/showUser")    
+    return render(request, "home/createUser.html")
+
+
+def showUser(request):
+    data = users.all()
+    return render(request, "home/showUser.html", {"data": data})
+
+def updateUser(request, id):
+    data = users.get(doc_id=id)
+    if request.method == "POST":
+        user_name = request.POST["user_name"]
+        password = request.POST["password"]
+        contact_no = request.POST["contact_no"]
+        email = request.POST["email"]
+        status = request.POST["status"]
+        updated_date = request.POST["updated_date"]
+        users.update(
+            {
+                "id": id,
+                "user_name": user_name,
+                "password": password,
+                "contact_no": contact_no,
+                "email": email,
+                "status": status,
+                "updated_date": updated_date,
+            },
+            doc_ids=[id],
+        )
+        return redirect("/showUser")
+    return render(request, "home/updateUser.html", {"data": data})
+
+def deleteUser(request, id):
+    users.remove(doc_ids=[id])
+    return redirect("/showUser")
+
+
+
+#================================================================================================strategies
+strategies = StrategyDb.table("strategies")
+
+def createStrategy(request):
+    if request.method == "POST":
+        strategy_name = request.POST["strategy_name"]
+        strategy_type = request.POST["strategy_type"]
+        status = request.POST["status"]
+
+        strategies.insert(
+            {
+                "strategy_name": strategy_name,
+                "strategy_type": strategy_type,
+                "status": status,
+            }
+        )
+        return redirect("/showStrategy")
+    return render(request, "home/createStrategy.html")
+
+
+def showStrategy(request):
+    data = strategies.all()
+    return render(request, "home/showStrategy.html", {"data": data})
+
+
+def deleteStrategy(request, id):
+    strategies.remove(doc_ids=[id])
+    return redirect("/showStrategy")
+
+
+def updateStrategy(request, id):
+    data = strategies.get(doc_id=id)
+    if request.method == "POST":
+        strategy_name = request.POST["strategy_name"]
+        strategy_type = request.POST["strategy_type"]
+        status = request.POST["status"]
+
+        strategies.update(
+            {
+                "id": id,
+                "strategy_name": strategy_name,
+                "strategy_type": strategy_type,
+                "status": status,
+            },
+            doc_ids=[id],
+        )
+        return redirect("/showStrategy")
+    return render(request, "home/updateStrategy.html", {"data": data})
+
+
+#===========================================================================================================trading Acoount
+
+tradingAc = Trading_AccountDb.table("tradingAc")
+
+
+def createTradingAccount(request):
+    if request.method == "POST":
+        UserID = request.POST["UserID"]
+        BrokerID = request.POST["BrokerID"]
+        Zerodha_UserID = request.POST["Zerodha_UserID"]
+        Zerodha_Password = request.POST["Zerodha_Password"]
+        Zerodha_TOTP_Key = request.POST["Zerodha_TOTP_Key"]
+        IIFL_Email_id = request.POST["IIFL_Email_id"]
+        IIFL_Contact_Number = request.POST["IIFL_Contact_Number"]
+        IIFL_App_Source = request.POST["IIFL_App_Source"]
+        IIFL_User_Key = request.POST["IIFL_User_Key"]
+        IIFL_User_id = request.POST["IIFL_User_id"]
+        IIFL_Password = request.POST["IIFL_Password"]
+        IIFL_Encry_Key = request.POST["IIFL_Encry_Key"]
+        IIFL_OcpApimSubscription = request.POST["IIFL_OcpApimSubscription"]
+        IIFL_My2Pin = request.POST["IIFL_My2Pin"]
+        IIFL_ClientCode = request.POST["IIFL_ClientCode"]
+        IIFL_cpass = request.POST["IIFL_cpass"]
+        Kotak_Key = request.POST["Kotak_Key"]
+        Kotak_Secret = request.POST["Kotak_Secret"]
+        TA_Status = request.POST["TA_Status"]
+
+        tradingAc.insert(
+            {
+                "UserID": UserID,
+                "BrokerID": BrokerID,
+                "Zerodha_UserID": Zerodha_UserID,
+                "Zerodha_Password": Zerodha_Password,
+                "Zerodha_TOTP_Key": Zerodha_TOTP_Key,
+                "IIFL_Email_id": IIFL_Email_id,
+                "IIFL_Contact_Number": IIFL_Contact_Number,
+                "IIFL_App_Source": IIFL_App_Source,
+                "IIFL_User_Key": IIFL_User_Key,
+                "IIFL_User_id": IIFL_User_id,
+                "IIFL_Password": IIFL_Password,
+                "IIFL_Encry_Key": IIFL_Encry_Key,
+                "IIFL_OcpApimSubscription": IIFL_OcpApimSubscription,
+                "IIFL_My2Pin": IIFL_My2Pin,
+                "IIFL_ClientCode": IIFL_ClientCode,
+                "IIFL_cpass": IIFL_cpass,
+                "Kotak_Key":Kotak_Key,
+                "Kotak_Secret":Kotak_Secret,
+                "TA_Status": TA_Status,
+            }
+        )
+        return redirect("/showTradingAccount")
+    return render(request, "home/createTradingAccount.html")
+
+
+def showTradingAccount(request):
+    data = tradingAc.all()
+    return render(request, "home/showTradingAccount.html", {"data": data})
+
+
+def deleteTradingAccount(request, id):
+    tradingAc.remove(doc_ids=[id])
+    return redirect("/showTradingAccount")
+
+def updateTradingAccount(request, id):
+    data = tradingAc.get(doc_id=id)
+    if request.method == "POST":
+        UserID = request.POST["UserID"]
+        BrokerID = request.POST["BrokerID"]
+        Zerodha_UserID = request.POST["Zerodha_UserID"]
+        Zerodha_Password = request.POST["Zerodha_Password"]
+        Zerodha_TOTP_Key = request.POST["Zerodha_TOTP_Key"]
+        IIFL_Email_id = request.POST["IIFL_Email_id"]
+        IIFL_Contact_Number = request.POST["IIFL_Contact_Number"]
+        IIFL_App_Source = request.POST["IIFL_App_Source"]
+        IIFL_User_Key = request.POST["IIFL_User_Key"]
+        IIFL_User_id = request.POST["IIFL_User_id"]
+        IIFL_Password = request.POST["IIFL_Password"]
+        IIFL_Encry_Key = request.POST["IIFL_Encry_Key"]
+        IIFL_OcpApimSubscription = request.POST["IIFL_OcpApimSubscription"]
+        IIFL_My2Pin = request.POST["IIFL_My2Pin"]
+        IIFL_ClientCode = request.POST["IIFL_ClientCode"]
+        IIFL_cpass = request.POST["IIFL_cpass"]
+        TA_Status = request.POST["TA_Status"]
+
+        tradingAc.update(
+            {
+                "id": id,
+                "UserID": UserID,
+                "BrokerID": BrokerID,
+                "Zerodha_UserID": Zerodha_UserID,
+                "Zerodha_Password": Zerodha_Password,
+                "Zerodha_TOTP_Key": Zerodha_TOTP_Key,
+                "IIFL_Email_id": IIFL_Email_id,
+                "IIFL_Contact_Number": IIFL_Contact_Number,
+                "IIFL_App_Source": IIFL_App_Source,
+                "IIFL_User_Key": IIFL_User_Key,
+                "IIFL_User_id": IIFL_User_id,
+                "IIFL_Password": IIFL_Password,
+                "IIFL_Encry_Key": IIFL_Encry_Key,
+                "IIFL_OcpApimSubscription": IIFL_OcpApimSubscription,
+                "IIFL_My2Pin": IIFL_My2Pin,
+                "IIFL_ClientCode": IIFL_ClientCode,
+                "IIFL_cpass": IIFL_cpass,
+                "TA_Status": TA_Status,
+            },
+            doc_ids=[id],
+        )
+        return redirect("/showTradingAccount")
+    return render(request, "home/updateTradingAccount.html", {"data": data})

@@ -25,11 +25,11 @@
                 </div>
             </div>
 
-            <form action="{% url 'saveTradingAccount' %}" id="form" method="post" enctype="multipart/form-data"
-                class="has-validation-callback">
+            <form action="{% url 'createTradingAccount' %}" id="form" method="post" enctype="multipart/form-data"
+                class="has-validation-callback" style="padding: 2%;">
                 {% csrf_token %}
                 <div class="row" style="margin: 10px;">
-                    <input type="hidden" name="id" value="">
+                    <!-- <input type="hidden" name="id" value="">
                     <div class="form-group col-xs-4 col-sm-4 col-md-4">
                         <label for="UserID">User ID</label>
                         <select class="form-control" id="UserID" name="UserID">
@@ -49,6 +49,14 @@
 
 
                           </select> 
+                    </div> -->
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="UserID">UserID</label>
+                        <input type="text" class="form-control" id="UserID" placeholder="" name="UserID">
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                        <label for="BrokerID">BrokerID</label>
+                        <input type="text" class="form-control" id="BrokerID" placeholder="" name="BrokerID">
                     </div>
                     <div class="form-group col-xs-4 col-sm-4 col-md-4">
                         <label for="Zerodha_UserID">Zerodha_UserID</label>
@@ -119,14 +127,14 @@
                         <input type="text" class="form-control" id="TA_Status" placeholder="" name="TA_Status">
                     </div>
                     
-                    <div class="form-group col-xs-4 col-sm-4 col-md-4">
+                    <!-- <div class="form-group col-xs-4 col-sm-4 col-md-4">
                         <label for="Created_By">Created_By</label>
                         <input type="text" class="form-control" id="Created_By" placeholder="" name="Created_By">
                     </div>
                     <div class="form-group col-xs-4 col-sm-4 col-md-4">
                         <label for="Updated_By">Updated_By</label>
                         <input type="text" class="form-control" id="Updated_By" placeholder="" name="Updated_By">
-                    </div>
+                    </div> -->
     
                 </div>
                 <button type="submit" class="btn btn-default" style="margin: 10px;">Submit</button>

@@ -16,8 +16,8 @@
   <div class="card">
   <div class="card-header border-0">
   <div class="row align-items-center">
-    <div class="col">
-        <h2 class="mb-0">Add Brokers</h2>
+    <div class="col"> 
+        <h2 class="mb-0">Update Brokers</h2>
     </div>
     <div class="col text-right">
         <a href="{% url 'showBroker' %}" class="btn btn-sm btn-primary">show</a>
@@ -25,20 +25,23 @@
 </div>
   </div>
 
-<form action="{% url 'update_saveBroker' %}" method="post" id="form" enctype="multipart/form-data" class="has-validation-callback">
+<form action="{% url 'updateBroker' data.doc_id %}" method="post" id="form" enctype="multipart/form-data" class="has-validation-callback" style="padding: 2%;">
   {% csrf_token %}
-  <input type="hidden" name="id" value="{{data.id}}">
+
+
+
+<!-- <input type="hidden" name="id" value="{{data.timeid}}"> -->
     <div class="form-group">
       <label for="broker_name">Broker Name:</label>
-      <input type="text" class="form-control" value="{{ data.broker_name }}" id="broker_name" placeholder="Enter name" name="broker_name">
+      <input type="text" class="form-control" value="{{ data.broker_name }}" id="broker_name" placeholder="" name="broker_name">
     </div>
     <div class="form-group">
       <label for="broker_logo">Broker Logo:</label>
-      <input type="file" class="form-control" value="{{ data.broker_logo }}" id="broker_logo"  name="logo">
+      <input type="file" class="form-control" value="{{ data.broker_logo }}" id="broker_logo"  name="broker_logo">
     </div>
     <div class="form-group">
-      <label for="updated_date">updated_date:</label>
-      <input type="datetime" class="form-control" value="{{ data.updated_date }}" id="updated_date"  name="updated_date">
+      <label for="created_date">update_date:</label>
+      <input type="datetime" class="form-control" value="{{ data.created_date }}" id="created_date"  name="created_date">
     </div>
    
    

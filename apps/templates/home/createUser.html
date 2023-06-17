@@ -26,9 +26,9 @@
 </div>
   </div>
 
-<form action="{% url 'saveUser' %}"  id="form" method="post" enctype="multipart/form-data" class="has-validation-callback">
+<form action="{% url 'createUser' %}"  id="form" method="post" enctype="multipart/form-data" class="has-validation-callback" style="padding:2%;">
   {% csrf_token %}
-  <input type="hidden" name="id" value="">
+  <!-- <input type="hidden" name="id" value="">  -->
     <div class="form-group">
       <label for="User_name">User_name:</label>
       <input type="text" class="form-control" id="User_name" placeholder="Enter name" name="user_name">

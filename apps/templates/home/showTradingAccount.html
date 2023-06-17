@@ -52,13 +52,11 @@
                                 <th scope="col"style="width: 150px;">IIFL_cpass</th>
                                 <th scope="col"style="width: 150px;">Kotak_Key</th>
                                 <th scope="col"style="width: 150px;">Kotak_Secret</th>
-                                
                                 <th scope="col"style="width: 200px;">TA_status</th>
-                                <th scope="col"style="width: 150px;">created_by</th>
-                                <th scope="col"style="width: 150px;">created_date</th>
-                                <th scope="col"style="width: 150px;">updated_date</th>
-                                <th scope="col"style="width: 150px;">updated_by</th>
-
+                                <!-- <th scope="col"style="width: 150px;">created_by</th> -->
+                                <!-- <th scope="col"style="width: 150px;">created_date</th>
+                                <th scope="col"style="width: 150px;">updated_date</th> -->
+                                <!-- <th scope="col"style="width: 150px;">updated_by</th> -->
                                 <th scope="col"style="width: 217.767px;">action</th>
 
                             </tr>
@@ -85,15 +83,15 @@
                                 <td scope="row">{{ x.Kotak_Key}}</td>
                                 <td scope="row">{{ x.Kotak_Secret}}</td>
                                 <td scope="row">{{ x.TA_Status}}</td>
-                                <td scope="row">{{ x.Created_By}}</td>
-                                <td scope="row">{{ x.TA_Created_Date}}</td>
-                                <td scope="row">{{ x.Updated_Date}}</td>
-                                <td scope="row">{{ x.Updated_By}}</td>
+                                 <!-- <td scope="row">{{ x.Created_By}}</td>  -->
+                                <!-- <td scope="row">{{ x.TA_Created_Date}}</td>
+                                <td scope="row">{{ x.Updated_Date}}</td> -->
+                                <!-- <td scope="row">{{ x.Updated_By}}</td> -->
                                 <td>
                                     <div class="btn-group">
-                                      <a href="{% url 'updateTradingAccount' id=x.id %}" class="btn btn-success"><i
+                                      <a href="{% url 'updateTradingAccount' x.doc_id %}" class="btn btn-success"><i
                                           class="fa fa-edit"></i></a>
-                                      <a href="{% url 'deleteTradingAccount' id=x.id %}" onclick="return confirm('Are you sure to delete..?')"
+                                      <a href="{% url 'deleteTradingAccount' x.doc_id %}" onclick="return confirm('Are you sure to delete..?')"
                                         class="btn btn-danger"><i class="fa fa-remove"></i></a>
           
                                     </div>

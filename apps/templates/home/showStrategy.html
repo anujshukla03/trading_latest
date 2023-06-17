@@ -38,9 +38,6 @@
                                 <th scope="col" style="width: 150px;">Strategy_name</th>
                                 <th scope="col"style="width: 150px;">Strategy_type</th>
                                 <th scope="col"style="width: 200px;">status</th>
-                                <th scope="col"style="width: 150px;">created_date</th>
-                                <th scope="col"style="width: 150px;">updated_date</th>
-
                                 <th scope="col"style="width: 217.767px;">action</th>
 
                             </tr>
@@ -48,21 +45,17 @@
                         <tbody>
                             {% for x in data %}
                             <tr>
-                                
                                 <td scope="row">{{ x.strategy_name }}</td>
                                 <td scope="row">{{ x.strategy_type }}</td>
                                 <td scope="row">{{ x.status}}</td>
-                                <td scope="row">{{ x.created_date}}</td>
-                                <td scope="row">{{ x.updated_date}}</td>
                                 <td>
                                     <div class="btn-group">
-                                      <a href="{% url 'updateStrategy' id=x.id %}" class="btn btn-success"><i
+                                      <a href="{% url 'updateStrategy' x.doc_id %}" class="btn btn-success"><i
                                           class="fa fa-edit"></i></a>
-                                      <a href="{% url 'deleteStrategy' id=x.id %}" onclick="return confirm('Are you sure to delete..?')"
+                                      <a href="{% url 'deleteStrategy' x.doc_id %}" onclick="return confirm('Are you sure to delete..?')"
                                         class="btn btn-danger"><i class="fa fa-remove"></i></a>
-          
                                     </div>
-                                  </td>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
