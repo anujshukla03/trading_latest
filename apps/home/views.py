@@ -77,7 +77,6 @@ def register(request):
 
 
 def login(request):
-    print("------------------------------------------------------")
     tradelogic = kiteInit()
     breakout_l = breakoutLogic()
     if request.method == "POST":

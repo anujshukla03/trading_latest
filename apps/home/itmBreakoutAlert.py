@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-# import datetime
-from datetime import datetime
+import datetime
+# from datetime import datetime
 from typing import Optional, Tuple
 import time
 from apps.home.kite_init import kiteInit
@@ -18,7 +18,7 @@ class breakoutLogic():
         self.orb_ma_h = int(self.kite.getdata("orb_ma_h"))
         self.orb_ma_l = int(self.kite.getdata("orb_ma_l"))
         self.orb_range_start_time1 = str(self.kite.getdata("orb_range_start_time")+":00")
-        self.orb_range_start_time = datetime.strptime(self.orb_range_start_time1, '%H:%M:%S').time()
+        self.orb_range_start_time = datetime.datetime.strptime(self.orb_range_start_time1, '%H:%M:%S').time()
         self.orb_retracement_time = int(self.kite.getdata("orb_retracement_time"))
         self.hl_difference_points = int(self.kite.getdata("hl_difference_points"))
         self.ttoken = self.kite.getdata("ttoken")
@@ -40,6 +40,7 @@ class breakoutLogic():
         print("or_breakout_range_point_diff:", self.or_breakout_range_point_diff, "(", type(self.or_breakout_range_point_diff),")")
         # print(self.kite.historicalData(request,self.ttoken, self.orb_range_start_time,  to_datetime= datetime.datetime.now(), self.orb_range_candle_time))
 
+ 
     def itmBreakoutAlert(self, request):
 
         past_days_required = math.ceil(self.or_breakout_candle_time*self.moving_avg_rows/375)
@@ -59,12 +60,12 @@ class breakoutLogic():
         
         last_few_trading_day_df = last_few_trading_day_df.iloc[-self.moving_avg_rows:]
         
-        print(len(last_few_trading_day_df))
-        print(last_few_trading_day_df)
+        # print(len(last_few_trading_day_df))
+        # print(last_few_trading_day_df)
         
         
         start_time = datetime.time(9, 15)
-        end_time = datetime.time(15, 30)
+        end_time = datetime.time(19, 30)
 
 
         # Different States
@@ -90,9 +91,14 @@ class breakoutLogic():
 
                 orb_range_checked = True
 
+                #####################################################################################
+                # curr_day_df = pd.DataFrame(self.kite.historicalData(request, self.ttoken, few_days_ago, 
+                #                                                      today,'minute'))
+
+
                 curr_day_df = pd.DataFrame(self.kite.historicalData(request, self.ttoken, today, 
                                                                      today,'minute'))
-                
+                                
                 curr_day_after_start_time_df = curr_day_df[curr_day_df['date'].dt.time > self.orb_range_start_time]
 
                 curr_day_after_start_time_df = resample_df(curr_day_after_start_time_df.copy(),
@@ -119,6 +125,9 @@ class breakoutLogic():
                 else:
                     
                     while current_time() < end_time:
+                        ###########################################################################################
+                        # curr_day_df = pd.DataFrame(self.kite.historicalData(request, self.ttoken, few_days_ago, today,'minute' ))
+
                         curr_day_df = pd.DataFrame(self.kite.historicalData(request, self.ttoken, today, today,'minute' ))
 
                         or_breakout_df = resample_df(curr_day_df.copy(), self.or_breakout_candle_time)
@@ -130,6 +139,9 @@ class breakoutLogic():
 
                         or_breakout_df['day'] = or_breakout_df['date'].dt.date
 
+                        ######################################################################
+                        # or_breakout_df = or_breakout_df[or_breakout_df['date'] >= today]
+
                         or_breakout_df = or_breakout_df[or_breakout_df['date'] >= today]
 
                         top_activator_flag = self.test_top_range(request, or_breakout_df.copy(), top_range)
@@ -137,17 +149,15 @@ class breakoutLogic():
                         if top_activator_flag:
                             return True, 'top_range_breakout'
                         
-                        # bottom_activator_flag = self.test_bottom_range(request, or_breakout_df.copy(), bottom_range)
+                        bottom_activator_flag = self.test_bottom_range(request, or_breakout_df.copy(), bottom_range)
 
-                        # if bottom_activator_flag:
-                        #     return True, 'bottom_range_breakout'
+                        if bottom_activator_flag:
+                            return True, 'bottom_range_breakout'
 
         return False
 
 
     def test_top_range(self, request, df, top_range):
-
-        print('Checking Top Range')
 
         today = datetime.date.today()
         
@@ -155,12 +165,21 @@ class breakoutLogic():
 
         i = df.index[-1]
 
-        c1 = (df.loc[i-1, 'close'] > row['open']) or (row['close'] > row['open'])
-        c2 = (df.loc[i-1, 'close'] > row['ma_h']) and (df.loc[i-1, 'close'] > top_range)
+        previous_close = df.iat[i-1, df.columns.get_loc('close')]
+
+        c1 = (previous_close > row['open']) or (row['close'] > row['open'])
+        c2 = (previous_close > row['ma_h']) and (previous_close > top_range)
         c3 = (row['close'] > row['ma_h']) and (row['close'] > top_range)
         c4 = row['ma_h'] > top_range
         
+        print(c1, c2, c3, c4)
+
+        ###########################
+        # if 1
+        
         if c1 and c2 and c3 and c4:
+        
+            # print('Inside if')
             
             c5 = row['close'] - top_range < self.or_breakout_range_point_diff
             
@@ -175,6 +194,7 @@ class breakoutLogic():
 
                 while current_time() <= end_of_retracement:
                     
+                    # print(self.kite.get_ltp(request, [self.ttoken])[str(self.ttoken)]['last_price'])
                     if (self.kite.get_ltp(request, [self.ttoken])[str(self.ttoken)]['last_price'] <= 
                         top_range + self.or_breakout_range_point_diff):
                         print('breakout_in_retracement')
@@ -187,13 +207,59 @@ class breakoutLogic():
         return False
             
 
-    # def test_bottom_range(self, request, df, top_range):     
-        return False
+    def test_bottom_range(self, request, df, bottom_range):     
+        today = datetime.date.today()
+        
+        row = df.iloc[-1]  
 
+        i = df.index[-1]
+
+        previous_close = df.iat[i-1, df.columns.get_loc('close')]
+
+        c1 = (previous_close < row['open']) or (row['close'] < row['open'])
+        c2 = (previous_close < row['ma_l']) and (previous_close < bottom_range)
+        c3 = (row['close'] > row['ma_h']) and (row['close'] > bottom_range)
+        c4 = row['ma_l'] < bottom_range
+        
+        print(c1, c2, c3, c4)
+
+        ###########################
+        # if 1
+        
+        if c1 and c2 and c3 and c4:
+        
+            # print('Inside if')
+            
+            c5 = bottom_range - row['close'] < self.or_breakout_range_point_diff
+            
+            if c5:
+                print('Pre Final Breakout True ')
+                return True
+            
+            else:
+                end_of_retracement = add_mins_to_time(current_time(), self.orb_retracement_time)
+
+                print(f'End of Retracement: {end_of_retracement} | {current_time()}')
+
+                while current_time() <= end_of_retracement:
+                    
+                    # print(self.kite.get_ltp(request, [self.ttoken])[str(self.ttoken)]['last_price'])
+                    if (self.kite.get_ltp(request, [self.ttoken])[str(self.ttoken)]['last_price'] <= 
+                        bottom_range + self.or_breakout_range_point_diff):
+                        print('breakout_in_retracement')
+                        return True
+                time.sleep(20)
+
+        else:
+            time.sleep(60)
+        
+        return False
 
 
 def resample_df(df: pd.DataFrame, x_minutes : Optional[int] = 15) -> pd.DataFrame:
     
+    # print('inside resampling')
+    # print(df)
     df.set_index('date', inplace=True)
     x_minutes = str(x_minutes) + 'T'
     resampled_df = df.resample(x_minutes, origin = 'start').agg({
@@ -202,7 +268,7 @@ def resample_df(df: pd.DataFrame, x_minutes : Optional[int] = 15) -> pd.DataFram
         'low': 'min',
         'close': 'last'
     })
-    resampled_df.reset_index(inplace=True, drop=True)
+    resampled_df.reset_index(inplace=True)
 
     return resampled_df
 
@@ -224,5 +290,3 @@ def current_time() -> datetime.time:
 
 def itm_buy_sell_strategy():
     pass
-
-    

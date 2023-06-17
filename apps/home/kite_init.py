@@ -35,6 +35,12 @@ class kiteInit:
         historical_data = pd.DataFrame(kite.historical_data(ttoken, from_datetime, to_datetime, interval, continuous=False, oi=False))
         return historical_data
     
+    def get_ltp(self,request,instruments):
+        enc=request.session["enctoken"]
+        kite = KiteApp(enctoken=enc)
+        last_traded_price = kite.ltp(instruments)
+        return last_traded_price
+
 
     def breakoutCandle(self,request,orb_range_start_time,or_breakout_candle_time):
         to_datetime= datetime.datetime.now()
