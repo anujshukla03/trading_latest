@@ -77,6 +77,7 @@ def register(request):
 
 
 def login(request):
+    print("------------------------------------------------------")
     tradelogic = kiteInit()
     breakout_l = breakoutLogic()
     if request.method == "POST":
@@ -93,7 +94,7 @@ def login(request):
     breakout_l.__init__()
     breakout_l.historicalData(request)
     tradelogic.dataAuth(request)
-    # breakout_l.itmBreakoutAlert(request)
+    breakout_l.itmBreakoutAlert(request)
     # print(tradelogic.historicalData(request=request,from_datetime=from_datetime,interval=interval,
     #                                 to_datetime = datetime.datetime.now(),
     #                                 instrument_token = 256265))
