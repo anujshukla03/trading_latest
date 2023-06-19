@@ -226,6 +226,7 @@ class breakoutLogic():
         ###########################
         # if 1
         
+        
         if c1 and c2 and c3 and c4:
         
             # print('Inside if')
