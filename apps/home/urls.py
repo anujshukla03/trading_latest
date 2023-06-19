@@ -12,6 +12,7 @@ urlpatterns = [
     # The home page
     path('homepage/', views.homepage, name='homepage'),
     path('', views.login, name='login'),
+    path('bot/', bot.send_help_message , name='bot'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
 

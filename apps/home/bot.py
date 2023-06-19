@@ -1,17 +1,18 @@
 import telebot
 from core.settings import TELEGRAM_BOT_TOKEN
 
-bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN, parse_mode=None)
 
+
+bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN, parse_mode=None)
 @bot.message_handler(commands=["help","hello"])
 def send_help_message(msg):
     bot.reply_to(msg,"Hello! This is a test bot")
 
 
 # to restrict it to text
-@bot.message_handler(content_types=["photo","sticker"])
-def send_content_message(msg):
-    bot.reply_to(msg,"this is not a text message")
+# @bot.message_handler(content_types=["photo","sticker"])
+# def send_content_message(msg):
+#     bot.reply_to(msg,"this is not a text message")
 
 
 # to restrict for a certain user
@@ -20,8 +21,8 @@ def send_content_message(msg):
 # def send_content_message(msg):
 #     bot.reply_to(msg,"this is not a text message")
 
-@bot.edited_message_handler(commands=["noice"])
-def send_multiple_message(msg):
-    bot.send_message(chat_id=msg.chat.id,text="WOW! done")
+# @bot.edited_message_handler(commands=["noice"])
+# def send_multiple_message(msg):
+#     bot.send_message(chat_id=msg.chat.id,text="WOW! done")
 
 bot.polling()

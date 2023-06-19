@@ -16,7 +16,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.conf import settings
 from django.contrib.auth import login as auth_login
-# from apps.home.models import Broker, user,strategy,TradingAccount,Input
 from tinydb import TinyDB, Query
 from json import dumps
 from apps.home.Constants import BASE_URL
@@ -28,7 +27,6 @@ import json
 import time
 from django.core.files.storage import FileSystemStorage
 from threading import Timer
-# from apps.home.bot import send_help_message,send_content_message,send_multiple_message
 
 Inputdb = TinyDB("Inputdb.json")
 inputs = Inputdb.table("inputs")
