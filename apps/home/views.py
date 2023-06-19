@@ -28,6 +28,7 @@ import json
 import time
 from django.core.files.storage import FileSystemStorage
 from threading import Timer
+# from apps.home.bot import send_help_message,send_content_message,send_multiple_message
 
 Inputdb = TinyDB("Inputdb.json")
 inputs = Inputdb.table("inputs")
@@ -92,7 +93,7 @@ def login(request):
     breakout_l.__init__()
     breakout_l.historicalData(request)
     tradelogic.dataAuth(request)
-    # breakout_l.itmBreakoutAlert(request)
+    breakout_l.itmBreakoutAlert(request)
     # print(tradelogic.historicalData(request=request,from_datetime=from_datetime,interval=interval,
     #                                 to_datetime = datetime.datetime.now(),
     #                                 instrument_token = 256265))

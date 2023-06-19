@@ -4,12 +4,12 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from django.urls import path, re_path
-from apps.home import views
+from apps.home import views , bot
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-
+    path('homepage/', bot.send_help_message),
     # The home page
     path('homepage/', views.homepage, name='homepage'),
     path('', views.login, name='login'),
