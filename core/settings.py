@@ -121,6 +121,6 @@ STATICFILES_DIRS = (
     os.path.join(CORE_DIR, 'apps/static'),
 )
 
-
+TELEGRAM_BOT_TOKEN = '6043116826:AAFHv4pR5x7HNFDDeuQA6lNJ8vRLIyWfTlQ'
 #############################################################
 #############################################################

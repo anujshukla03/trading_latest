@@ -16,7 +16,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.conf import settings
 from django.contrib.auth import login as auth_login
-
+from telegram import Update
+from telegram.ext import CallbackContext
+from apps.home.bot import bot_instance  # Create bot_instance in the bot.py file
 # from apps.home.models import Broker, user,strategy,TradingAccount,Input
 from tinydb import TinyDB, Query
 from json import dumps
@@ -53,7 +55,10 @@ Trading_AccountDb = TinyDB("Trading_AccountDb.json")
 # from_datetime =db.search(q.from_datetime)
 # retracement=db.search(q.retracement)
 # candle_HL_difference_points=db.search(q.candle_HL_difference_points)
-
+def telegram_webhook(request):
+    update = Update.de_json(request.body, bot_instance.bot)
+    bot_instance.updater.dispatcher.process_update(update)
+    return HttpResponse("")
 
 def homepage(request):
     return render(request, "home/index.html")

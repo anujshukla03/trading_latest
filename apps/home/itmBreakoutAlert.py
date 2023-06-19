@@ -25,6 +25,21 @@ class breakoutLogic():
         self.moving_avg_rows = int(self.kite.getdata("moving_avg_rows"))
         self.or_breakout_range_point_diff = int(self.kite.getdata("or_breakout_range_point_diff"))
         
+    
+    def establish_db(self):
+        self.kite = kiteInit()
+        self.orb_range_candle_time = int(self.kite.getdata("orb_range_candle_time"))
+        self.or_breakout_candle_time = int(self.kite.getdata("or_breakout_candle_time"))
+        self.orb_ma_h = int(self.kite.getdata("orb_ma_h"))
+        self.orb_ma_l = int(self.kite.getdata("orb_ma_l"))
+        self.orb_range_start_time1 = str(self.kite.getdata("orb_range_start_time")+":00")
+        self.orb_range_start_time = datetime.datetime.strptime(self.orb_range_start_time1, '%H:%M:%S').time()
+        self.orb_retracement_time = int(self.kite.getdata("orb_retracement_time"))
+        self.hl_difference_points = int(self.kite.getdata("hl_difference_points"))
+        self.ttoken = self.kite.getdata("ttoken")
+        self.moving_avg_rows = int(self.kite.getdata("moving_avg_rows"))
+        self.or_breakout_range_point_diff = int(self.kite.getdata("or_breakout_range_point_diff"))
+        
 
     def historicalData(self,request):
         print("orb_range_candle_time:", self.orb_range_candle_time, "(", type(self.orb_range_candle_time) ,")")
@@ -74,6 +89,9 @@ class breakoutLogic():
         while True:
             if current_time() >= start_time:
                 break
+        
+        # get latest values from db
+        self.establish_db()
 
         # Check for Activator only in Trading Hours
         if start_time <= current_time() <= end_time:
@@ -107,11 +125,13 @@ class breakoutLogic():
                 orb_first_candle = curr_day_after_start_time_df.head(1)
             
                 top_range = orb_first_candle.loc[0, 'high']
+                # print(type(top_range))
                 
                 bottom_range = orb_first_candle.loc[0, 'low']
+                # print(type(bottom_range))
                 
                 hl_difference = top_range - bottom_range
-
+                # print(type(hl))
                 print('Checking Range Condition')
                 
                 if hl_difference < self.hl_difference_points:
@@ -123,7 +143,6 @@ class breakoutLogic():
                     # itm_buy_sell_strategy()
                         
                 else:
-                    
                     while current_time() < end_time:
                         ###########################################################################################
                         # curr_day_df = pd.DataFrame(self.kite.historicalData(request, self.ttoken, few_days_ago, today,'minute' ))
@@ -136,11 +155,11 @@ class breakoutLogic():
 
                         or_breakout_df['ma_h'] = or_breakout_df['high'].rolling(window=self.moving_avg_rows).mean()
                         or_breakout_df['ma_l'] = or_breakout_df['low'].rolling(window=self.moving_avg_rows).mean()
-
                         or_breakout_df['day'] = or_breakout_df['date'].dt.date
 
                         ######################################################################
                         # or_breakout_df = or_breakout_df[or_breakout_df['date'] >= today]
+                        or_breakout_df['date'] = pd.to_datetime(or_breakout_df['date']).dt.date
 
                         or_breakout_df = or_breakout_df[or_breakout_df['date'] >= today]
 
@@ -225,7 +244,6 @@ class breakoutLogic():
 
         ###########################
         # if 1
-        
         
         if c1 and c2 and c3 and c4:
         
