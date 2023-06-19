@@ -1,21 +1,21 @@
-from telegram import Bot
-from telegram.ext import Updater, CommandHandler
-from telegram import Update
-from telegram.ext import CallbackContext
-from django.conf import settings
+import telebot
 
-bot_instance = Bot(settings.TELEGRAM_BOT_TOKEN)
-updater = Updater(bot=bot_instance)
+from core.settings import TELEGRAM_BOT_TOKEN
 
+bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN, parse_mode=None)
+print(bot)
+@bot.message_handler(commands=["help","hello"])
+def send_help_message(msg):
+    bot.reply_to(msg,"Hello! This is a test bot")
 
-def start_command(update: Update, context: CallbackContext):
-    update.message.reply_text("Hello! I'm your Django Telegram bot.")
+# to restrict it to text
+@bot.message_handler(content_types=["photo","sticker"])
+def send_content_message(msg):
+    bot.reply_to(msg,"this is not a text message")
+#
+@bot.message_handler(content_types=["photo","sticker"])
+@bot.message_handler(func=lambda msg: msg.from_user.usrname)
+def send_content_message(msg):
+    bot.reply_to(msg,"this is not a text message")
 
-
-def setup_bot_handlers():
-    dispatcher = updater.dispatcher
-    dispatcher.add_handler(CommandHandler("start", start_command))
-
-
-setup_bot_handlers()
-updater.start_polling()
+bot.polling()
