@@ -44,7 +44,7 @@
                 <label for="applicable_scripts">applicable_scripts</label>
                 <br>
                 <div class="dropdown">
-                    <select class=""  type="button" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:290%;">
+                    <select multiple class=""  name="applicable_scripts" type="button" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:290%;">
                       applicable_scripts
                       <div class="dropdown-menu" >
                         <option  class="dropdown-item" value="nifty">Nifty</option>
@@ -188,75 +188,75 @@
               </div>
 
               <!--dkddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd-->
-              <div class="row" id="nifty" style="display: flex;justify-content: space-evenly;">
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+              <!-- <div class="row" id="nifty" style="display: flex;justify-content: space-evenly;"> -->
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="nifty_instrument_token">nifty_instrument_token</label>
                   <input type="number" class="form-control" id="nifty_instrument_token" placeholder=""
                     name="nifty_instrument_token" value="{{data.nifty_params.nifty_instrument_token}}">
                 </div>
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="nifty_hl_difference_points">nifty_hl_difference_points</label>
                   <input type="number" class="form-control" id="nifty_hl_difference_points" placeholder=""
                     name="nifty_hl_difference_points" value="{{data.nifty_params.nifty_hl_difference_points}}">
                 </div>
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="nifty_or_range_point_difference">nifty_or_range_point_difference</label>
                   <input type="number" class="form-control" id="nifty_or_range_point_difference" placeholder=""
                     name="nifty_or_range_point_difference" value="{{data.nifty_params.nifty_or_range_point_difference}}">
                 </div>
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="nifty_or_breakout_range_point_diff">nifty_or_breakout_range_point_diff</label>
                   <input type="number" class="form-control" id="nifty_or_breakout_range_point_diff" placeholder=""
                     name="nifty_or_breakout_range_point_diff" value="{{data.nifty_params.nifty_or_breakout_range_point_diff}}">
                 </div>
-              </div>
+              <!-- </div> -->
               <!--bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-->
-              <div class="row" id="banknifty" style="display: flex; justify-content: space-evenly;">
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+              <!-- <div class="row" id="banknifty" style="display: flex; justify-content: space-evenly;"> -->
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="bankNifty_instrument_token">bankNifty_instrument_token</label>
                   <input type="number" class="form-control" id="bankNifty_instrument_token" placeholder=""
                     name="bankNifty_instrument_token"  value="{{data.banknifty_params.bankNifty_instrument_token}}">
                 </div>
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="bankNifty_hl_difference_points">bankNifty_hl_difference_points</label>
                   <input type="number" class="form-control" id="bankNifty_hl_difference_points" placeholder=""
                     name="bankNifty_hl_difference_points"  value="{{data.banknifty_params.bankNifty_hl_difference_points}}">
                 </div>
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="bankNifty_or_range_point_difference">bankNifty_or_range_point_difference</label>
                   <input type="number" class="form-control" id="bankNifty_or_range_point_difference" placeholder=""
                     name="bankNifty_or_range_point_difference"  value="{{data.banknifty_params.bankNifty_or_range_point_difference}}">
                 </div>
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="bankNifty_or_breakout_range_point_diff">bankNifty_or_breakout_range_point_diff</label>
                   <input type="number" class="form-control" id="bankNifty_or_breakout_range_point_diff" placeholder=""
                     name="bankNifty_or_breakout_range_point_diff"  value="{{data.banknifty_params.bankNifty_or_breakout_range_point_diff}}">
                 </div>
-              </div>
+              <!-- </div> -->
               <!--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-->
-              <div class="row" id="finnifty" style="display: flex; justify-content: space-evenly;padding: 2%;">
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+              <!-- <div class="row" id="finnifty" style="display: flex; justify-content: space-evenly;padding: 2%;"> -->
+                <div class="form-group col-xs- 4col-sm-4 col-md-4">
                   <label for="finNifty_instrument_token">finNifty_instrument_token</label>
                   <input type="number" class="form-control" id="finNifty_instrument_token" placeholder=""
                     name="finNifty_instrument_token" value="{{data.finnifty_params.finNifty_instrument_token}}">
                 </div>
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="finNifty_hl_difference_points">finNifty_hl_difference_points</label>
                   <input type="number" class="form-control" id="finNifty_hl_difference_points" placeholder=""
                     name="finNifty_hl_difference_points" value="{{data.finnifty_params.finNifty_hl_difference_points}}">
                 </div>
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="finNifty_or_range_point_difference">finNifty_or_range_point_difference</label>
                   <input type="number" class="form-control" id="finNifty_or_range_point_difference" placeholder=""
                     name="finNifty_or_range_point_difference" value="{{data.finnifty_params.finNifty_or_range_point_difference}}">
                 </div>
-                <div class="form-group col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group col-xs-4 col-sm-4 col-md-4">
                   <label for="finNifty_or_breakout_range_point_diff">finNifty_or_breakout_range_point_diff</label>
                   <input type="number" class="form-control" id="finNifty_or_breakout_range_point_diff" placeholder=""
                     name="finNifty_or_breakout_range_point_diff" value="{{data.finnifty_params.finNifty_or_breakout_range_point_diff}}">
                 </div>
               </div>
-            </div>
+            <!-- </div> -->
             
             <button type="submit" class="btn btn-default">Submit</button>
           </form>

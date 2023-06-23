@@ -520,7 +520,7 @@ strategies = StrategyDb.table("strategies")
 def showStrategy(request):
     data = strategies.all() 
     generic_params = data[0].get("generic_params")
-    # print(data)
+
     return render(request, 'home/showStrategy.html', {'generic_params':data})
 
 
@@ -528,39 +528,40 @@ def showStrategy(request):
 def createStrategy(request):
     if request.method == 'POST':
         # Retrieve form data
+    
         strategy_data = {
-            "strategy_id": request.POST.get('strategy_id'),
+            "strategy_id": int(request.POST.get('strategy_id')),
             "strategy_name": request.POST.get('strategy_name'),
-            "applicable_scripts":request.POST.get('applicable_scripts'),
+            "applicable_scripts":','.join(request.POST.getlist('applicable_scripts')),
             "generic_params": {
-                "orb_range_candle_time": request.POST.get('orb_range_candle_time'),
-                "or_breakout_candle_time": request.POST.get('or_breakout_candle_time'),
-                "orb_ma_h": request.POST.get('orb_ma_h'),
-                "orb_ma_l":request.POST.get('orb_ma_l'),
+                "orb_range_candle_time": int(request.POST.get('orb_range_candle_time')),
+                "or_breakout_candle_time": int(request.POST.get('or_breakout_candle_time')),
+                "orb_ma_h": int(request.POST.get('orb_ma_h')),
+                "orb_ma_l":int(request.POST.get('orb_ma_l')),
                 "orb_range_start_time": request.POST.get('orb_range_start_time'),
-                "orb_retracement_time": request.POST.get('orb_retracement_time'),
-                "moving_avg_rows": request.POST.get("moving_avg_rows"),
-                "itm_ma_h":request.POST.get("itm_ma_h"),
-                "itm_ma_l":request.POST.get("itm_ma_l"),
-                "itm_ma_oi":request.POST.get("itm_ma_oi"),
-                "itm_reentry_after_mins":request.POST.get("itm_reentry_after_mins"),
-                "itm_entry_points_difference":request.POST.get("itm_entry_points_difference"),
-                "itm_exit_points_difference":request.POST.get("itm_exit_points_difference"),
-                "itm_sl_points_difference":request.POST.get("itm_sl_points_difference"),
-                "itm_sl_cost_points_difference":request.POST.get("itm_sl_cost_points_difference"),
-                "itm_vwap_points_difference":request.POST.get("itm_vwap_points_difference"),
-                "itm_sold_option_premium_decay":request.POST.get("itm_sold_option_premium_decay"),
-                "itm_profit_percent":request.POST.get("itm_profit_percent"),
-                "itm_profit_increment":request.POST.get("itm_profit_increment"),
-                "itm_first_target_qty":request.POST.get("itm_first_target_qty"),
-                "itm_second_target_qty":request.POST.get("itm_second_target_qty"),
+                "orb_retracement_time": int(request.POST.get('orb_retracement_time')),
+                "moving_avg_rows": int(request.POST.get("moving_avg_rows")),
+                "itm_ma_h":int(request.POST.get("itm_ma_h")),
+                "itm_ma_l":int(request.POST.get("itm_ma_l")),
+                "itm_ma_oi":int(request.POST.get("itm_ma_oi")),
+                "itm_reentry_after_mins":int(request.POST.get("itm_reentry_after_mins")),
+                "itm_entry_points_difference":float(request.POST.get("itm_entry_points_difference")),
+                "itm_exit_points_difference":float(request.POST.get("itm_exit_points_difference")),
+                "itm_sl_points_difference":float(request.POST.get("itm_sl_points_difference")),
+                "itm_sl_cost_points_difference":float(request.POST.get("itm_sl_cost_points_difference")),
+                "itm_vwap_points_difference":float(request.POST.get("itm_vwap_points_difference")),
+                "itm_sold_option_premium_decay":float(request.POST.get("itm_sold_option_premium_decay")),
+                "itm_profit_percent":float(request.POST.get("itm_profit_percent")),
+                "itm_profit_increment":float(request.POST.get("itm_profit_increment")),
+                "itm_first_target_qty":float(request.POST.get("itm_first_target_qty")),
+                "itm_second_target_qty":float(request.POST.get("itm_second_target_qty")),
                 "itm_order_type":request.POST.get("itm_order_type"), #buy, sell, both
                 "itm_last_entry_condition_check_time":request.POST.get("itm_last_entry_condition_check_time"),#time
-                "itm_pyramid_start_time":request.POST.get("itm_pyramid_start_time"),
+                "itm_pyramid_start_time":int(request.POST.get("itm_pyramid_start_time")),
                 "itm_last_pyramid_condition_check_time":request.POST.get("itm_last_pyramid_condition_check_time"),#time
-                "itm_second_tranche_time_diffence_mins":request.POST.get("itm_second_tranche_time_diffence_mins"),
-                "itm_order_qty": request.POST.get("itm_order_qty"),
-                "itm_order_multiplier": request.POST.get("itm_order_multiplier")
+                "itm_second_tranche_time_diffence_mins":int(request.POST.get("itm_second_tranche_time_diffence_mins")),
+                "itm_order_qty": int(request.POST.get("itm_order_qty")),
+                "itm_order_multiplier": int(request.POST.get("itm_order_multiplier"))
             },
             "nifty_params": {
                 "nifty_instrument_token": int(request.POST.get('nifty_instrument_token')),
@@ -592,42 +593,42 @@ def createStrategy(request):
 def updateStrategy(request,id):
     # Strategy = Query()
     data = strategies.get(doc_id=id)
-
+    print(''.join(request.POST.getlist('applicable_scripts')))
     if request.method == 'POST':
         # Retrieve form data
         updated_strategy_data = {
-            "strategy_id": request.POST.get('strategy_id'),
+             "strategy_id": int(request.POST.get('strategy_id')),
             "strategy_name": request.POST.get('strategy_name'),
-            "applicable_scripts":request.POST.get('applicable_scripts'),
+            "applicable_scripts":','.join(request.POST.getlist('applicable_scripts')),
             "generic_params": {
-                "orb_range_candle_time": request.POST.get('orb_range_candle_time'),
-                "or_breakout_candle_time": request.POST.get('or_breakout_candle_time'),
-                "orb_ma_h": request.POST.get('orb_ma_h'),
-                "orb_ma_l":request.POST.get('orb_ma_l'),
+                "orb_range_candle_time": int(request.POST.get('orb_range_candle_time')),
+                "or_breakout_candle_time": int(request.POST.get('or_breakout_candle_time')),
+                "orb_ma_h": int(request.POST.get('orb_ma_h')),
+                "orb_ma_l":int(request.POST.get('orb_ma_l')),
                 "orb_range_start_time": request.POST.get('orb_range_start_time'),
-                "orb_retracement_time": request.POST.get('orb_retracement_time'),
-                "moving_avg_rows": request.POST.get("moving_avg_rows"),
-                "itm_ma_h":request.POST.get("itm_ma_h"),
-                "itm_ma_l":request.POST.get("itm_ma_l"),
-                "itm_ma_oi":request.POST.get("itm_ma_oi"),
-                "itm_reentry_after_mins":request.POST.get("itm_reentry_after_mins"),
-                "itm_entry_points_difference":request.POST.get("itm_entry_points_difference"),
-                "itm_exit_points_difference":request.POST.get("itm_exit_points_difference"),
-                "itm_sl_points_difference":request.POST.get("itm_sl_points_difference"),
-                "itm_sl_cost_points_difference":request.POST.get("itm_sl_cost_points_difference"),
-                "itm_vwap_points_difference":request.POST.get("itm_vwap_points_difference"),
-                "itm_sold_option_premium_decay":request.POST.get("itm_sold_option_premium_decay"),
-                "itm_profit_percent":request.POST.get("itm_profit_percent"),
-                "itm_profit_increment":request.POST.get("itm_profit_increment"),
-                "itm_first_target_qty":request.POST.get("itm_first_target_qty"),
-                "itm_second_target_qty":request.POST.get("itm_second_target_qty"),
+                "orb_retracement_time": int(request.POST.get('orb_retracement_time')),
+                "moving_avg_rows": int(request.POST.get("moving_avg_rows")),
+                "itm_ma_h":int(request.POST.get("itm_ma_h")),
+                "itm_ma_l":int(request.POST.get("itm_ma_l")),
+                "itm_ma_oi":int(request.POST.get("itm_ma_oi")),
+                "itm_reentry_after_mins":int(request.POST.get("itm_reentry_after_mins")),
+                "itm_entry_points_difference":float(request.POST.get("itm_entry_points_difference")),
+                "itm_exit_points_difference":float(request.POST.get("itm_exit_points_difference")),
+                "itm_sl_points_difference":float(request.POST.get("itm_sl_points_difference")),
+                "itm_sl_cost_points_difference":float(request.POST.get("itm_sl_cost_points_difference")),
+                "itm_vwap_points_difference":float(request.POST.get("itm_vwap_points_difference")),
+                "itm_sold_option_premium_decay":float(request.POST.get("itm_sold_option_premium_decay")),
+                "itm_profit_percent":float(request.POST.get("itm_profit_percent")),
+                "itm_profit_increment":float(request.POST.get("itm_profit_increment")),
+                "itm_first_target_qty":float(request.POST.get("itm_first_target_qty")),
+                "itm_second_target_qty":float(request.POST.get("itm_second_target_qty")),
                 "itm_order_type":request.POST.get("itm_order_type"), #buy, sell, both
                 "itm_last_entry_condition_check_time":request.POST.get("itm_last_entry_condition_check_time"),#time
-                "itm_pyramid_start_time":request.POST.get("itm_pyramid_start_time"),
+                "itm_pyramid_start_time":int(request.POST.get("itm_pyramid_start_time")),
                 "itm_last_pyramid_condition_check_time":request.POST.get("itm_last_pyramid_condition_check_time"),#time
-                "itm_second_tranche_time_diffence_mins":request.POST.get("itm_second_tranche_time_diffence_mins"),
-                "itm_order_qty": request.POST.get("itm_order_qty"),
-                "itm_order_multiplier": request.POST.get("itm_order_multiplier")
+                "itm_second_tranche_time_diffence_mins":int(request.POST.get("itm_second_tranche_time_diffence_mins")),
+                "itm_order_qty": int(request.POST.get("itm_order_qty")),
+                "itm_order_multiplier": int(request.POST.get("itm_order_multiplier"))
             },
             "nifty_params": {
                 "nifty_instrument_token": int(request.POST.get('nifty_instrument_token')),

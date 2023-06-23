@@ -32,11 +32,12 @@
                 </div>
 
             </div>
- 
+            
         <div class="card p-2 ml-3 mr-3">
             <div class="table-responsive">
                 <table class="table table-bordered table-info">
                     <thead class="thead-light">
+                        <th scope="col" style="width: 150px;">Actions</th>
                         <th scope="col" style="width: 150px;">strategy_id</th>
                         <th scope="col" style="width: 150px;">strategy_name</th>
                         <th scope="col" style="width: 150px;">applicable_scripts</th>
@@ -80,12 +81,20 @@
                         <th scope="col" style="width: 150px;">finNifty_hl_difference_points</th>
                         <th scope="col" style="width: 150px;">finNifty_or_range_point_difference</th>
                         <th scope="col" style="width: 150px;">finNifty_or_breakout_range_point_diff</th>
-                        <th scope="col" style="width: 150px;">Actions</th>
 
                     </thead>
 
                     {% for data in generic_params %}
                     <tr>
+                        <td>   
+                            <div class="btn-group">
+                                <a href="{% url 'updateStrategy' data.doc_id %}" class="btn btn-success"><i
+                                        class="fa fa-edit"></i></a>
+                                <a href="{% url 'deleteStrategy' data.doc_id %}"
+                                    onclick="return confirm('Are you sure to delete..?')"
+                                    class="btn btn-danger"><i class="fa fa-remove"></i></a>
+                            </div>
+                        </td>
                         <td>{{ data.strategy_id }}</td>
                         <td>{{ data.strategy_name }}</td>
                         <td>{{ data.applicable_scripts }}</td>
@@ -109,15 +118,6 @@
                             {{ val }}
                         </td>
                         {% endfor %}
-                        <td>   
-                            <div class="btn-group">
-                                <a href="{% url 'updateStrategy' data.doc_id %}" class="btn btn-success"><i
-                                        class="fa fa-edit"></i></a>
-                                <a href="{% url 'deleteStrategy' data.doc_id %}"
-                                    onclick="return confirm('Are you sure to delete..?')"
-                                    class="btn btn-danger"><i class="fa fa-remove"></i></a>
-                            </div>
-                        </td>
                     </tr>
                     {% endfor %}
                 </table>

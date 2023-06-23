@@ -1,1 +1,57 @@
-{"strategies": {"1": {"strategy_id": "1", "strategy_name": "itm buy sell", "applicable_scripts": null, "generic_params": {"orb_range_candle_time": "10", "or_breakout_candle_time": "10", "orb_ma_h": "3", "orb_ma_l": "3", "orb_range_start_time": "09:15", "orb_retracement_time": "15", "moving_avg_rows": "3", "itm_ma_h": "3", "itm_ma_l": "3", "itm_ma_oi": "3", "itm_reentry_after_mins": "15", "itm_entry_points_difference": "0.05", "itm_exit_points_difference": "0.05", "itm_sl_points_difference": "0.05", "itm_sl_cost_points_difference": "0.05", "itm_vwap_points_difference": "0.3", "itm_sold_option_premium_decay": "0.15", "itm_profit_percent": "0.15", "itm_profit_increment": "0.15", "itm_first_target_qty": "0.2", "itm_second_target_qty": "0.2", "itm_order_type": "both", "itm_last_entry_condition_check_time": "15:00", "itm_pyramid_start_time": "10", "itm_last_pyramid_condition_check_time": "15:00", "itm_second_tranche_time_diffence_mins": "10", "itm_order_qty": "5", "itm_order_multiplier": "5"}, "nifty_params": {"nifty_instrument_token": 256265, "nifty_hl_difference_points": 40, "nifty_or_range_point_difference": 5, "nifty_or_breakout_range_point_diff": "30"}, "banknifty_params": {"bankNifty_instrument_token": 260105, "bankNifty_hl_difference_points": 150, "bankNifty_or_range_point_difference": 13, "bankNifty_or_breakout_range_point_diff": "30"}, "finnifty_params": {"finNifty_instrument_token": 257801, "finNifty_hl_difference_points": 40, "finNifty_or_range_point_difference": 5, "finNifty_or_breakout_range_point_diff": "30"}}}}
+{
+    "strategies": {
+        "1": {
+            "strategy_id": 1,
+            "strategy_name": "itm buy sell",
+            "applicable_scripts": "nifty,banknifty,finnifty",
+            "generic_params": {
+                "orb_range_candle_time": 10,
+                "or_breakout_candle_time": 10,
+                "orb_ma_h": 3,
+                "orb_ma_l": 3,
+                "orb_range_start_time": "09:15",
+                "orb_retracement_time": 15,
+                "moving_avg_rows": 3,
+                "itm_ma_h": 3,
+                "itm_ma_l": 3,
+                "itm_ma_oi": 3,
+                "itm_reentry_after_mins": 15,
+                "itm_entry_points_difference": 0.05,
+                "itm_exit_points_difference": 0.05,
+                "itm_sl_points_difference": 0.05,
+                "itm_sl_cost_points_difference": 0.05,
+                "itm_vwap_points_difference": 0.3,
+                "itm_sold_option_premium_decay": 0.15,
+                "itm_profit_percent": 0.15,
+                "itm_profit_increment": 0.15,
+                "itm_first_target_qty": 0.2,
+                "itm_second_target_qty": 0.2,
+                "itm_order_type": "both",
+                "itm_last_entry_condition_check_time": "15:00",
+                "itm_pyramid_start_time": 10,
+                "itm_last_pyramid_condition_check_time": "15:00",
+                "itm_second_tranche_time_diffence_mins": 10,
+                "itm_order_qty": 5,
+                "itm_order_multiplier": 5
+            },
+            "nifty_params": {
+                "nifty_instrument_token": 256265,
+                "nifty_hl_difference_points": 40,
+                "nifty_or_range_point_difference": 5,
+                "nifty_or_breakout_range_point_diff": "30"
+            },
+            "banknifty_params": {
+                "bankNifty_instrument_token": 260105,
+                "bankNifty_hl_difference_points": 150,
+                "bankNifty_or_range_point_difference": 13,
+                "bankNifty_or_breakout_range_point_diff": "30"
+            },
+            "finnifty_params": {
+                "finNifty_instrument_token": 257801,
+                "finNifty_hl_difference_points": 40,
+                "finNifty_or_range_point_difference": 5,
+                "finNifty_or_breakout_range_point_diff": "30"
+            }
+        }
+    }
+}   
