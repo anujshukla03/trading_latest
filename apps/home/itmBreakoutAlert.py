@@ -11,6 +11,10 @@ import math
 class breakoutLogic():
 
     def __init__(self) -> None:
+        self.establish_db()
+
+    
+    def establish_db(self):
         self.kite = kiteInit()
         self.orb_range_candle_time = self.kite.generic_params["orb_range_candle_time"]
         self.or_breakout_candle_time = self.kite.generic_params["or_breakout_candle_time"]
@@ -99,26 +103,13 @@ class breakoutLogic():
         print("finNifty_hl_difference_points:", self.finNifty_hl_difference_points, "(", type(self.finNifty_hl_difference_points) ,")")
         print("finNifty_or_range_point_difference:", self.finNifty_or_range_point_difference, "(", type(self.finNifty_or_range_point_difference) ,")")
         print("finNifty_or_breakout_range_point_diff:", self.finNifty_or_breakout_range_point_diff, "(", type(self.finNifty_or_breakout_range_point_diff) ,")")
-
-        # self.orb_range_candle_time = int(self.kite.getdata("orb_range_candle_time"))
-        # self.or_breakout_candle_time = int(self.kite.getdata("or_breakout_candle_time"))
-        # self.orb_ma_h = int(self.kite.getdata("orb_ma_h"))
-        # self.orb_ma_l = int(self.kite.getdata("orb_ma_l"))
-        # self.orb_range_start_time1 = str(self.kite.getdata("orb_range_start_time")+":00")
-        # self.orb_range_start_time = datetime.datetime.strptime(self.orb_range_start_time1, '%H:%M:%S').time()
-        # self.orb_retracement_time = int(self.kite.getdata("orb_retracement_time"))
-        # self.hl_difference_points = int(self.kite.getdata("hl_difference_points"))
-        # self.ttoken = self.kite.getdata("ttoken")
-        # self.moving_avg_rows = int(self.kite.getdata("moving_avg_rows"))
-        # self.or_breakout_range_point_diff = int(self.kite.getdata("or_breakout_range_point_diff"))
-    
-    def establish_db(self):
-        pass
+       
         
 
     def historicalData(self,request):
-  
         pass
+
+
     def itmBreakoutAlert(self, request):
 
         past_days_required = math.ceil(self.or_breakout_candle_time*self.moving_avg_rows/375)
