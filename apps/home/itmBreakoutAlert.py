@@ -113,31 +113,11 @@ class breakoutLogic():
         # self.or_breakout_range_point_diff = int(self.kite.getdata("or_breakout_range_point_diff"))
     
     def establish_db(self):
-        self.kite = kiteInit()
-        self.orb_range_candle_time = int(self.kite.getdata("orb_range_candle_time"))
-        self.or_breakout_candle_time = int(self.kite.getdata("or_breakout_candle_time"))
-        self.orb_ma_h = int(self.kite.getdata("orb_ma_h"))
-        self.orb_ma_l = int(self.kite.getdata("orb_ma_l"))
-        self.orb_range_start_time1 = str(self.kite.getdata("orb_range_start_time")+":00")
-        self.orb_range_start_time = datetime.datetime.strptime(self.orb_range_start_time1, '%H:%M:%S').time()
-        self.orb_retracement_time = int(self.kite.getdata("orb_retracement_time"))
-        self.ttoken = self.kite.getdata("ttoken")
-        self.moving_avg_rows = int(self.kite.getdata("moving_avg_rows"))
-        self.or_breakout_range_point_diff = int(self.kite.getdata("or_breakout_range_point_diff"))
+        pass
         
 
     def historicalData(self,request):
-        # print("orb_range_candle_time:", self.orb_range_candle_time, "(", type(self.orb_range_candle_time) ,")")
-        # print("or_breakout_candle_time:", self.or_breakout_candle_time, "(", type(self.or_breakout_candle_time), ")")
-        # print("orb_ma_h:", self.orb_ma_h, "(", type(self.orb_ma_h), ")")
-        # print("orb_ma_l:", self.orb_ma_l, "(", type(self.orb_ma_l), ")")
-        # print("orb_range_start_time1:", self.orb_range_start_time1, "(", type(self.orb_range_start_time1),")")
-        # print("orb_range_start_time:", self.orb_range_start_time, "(", type(self.orb_range_start_time) ,")")
-        # print("orb_retracement_time:", self.orb_retracement_time, "(", type(self.orb_retracement_time) ,")")
-        # print("hl_difference_points:", self.hl_difference_points, "(", type(self.hl_difference_points), ")")
-        # print("ttoken:", self.ttoken, "(", type(self.ttoken), ")")
-        # print("moving_avg_rows:", self.moving_avg_rows, "(", type(self.moving_avg_rows),")")
-        # print("or_breakout_range_point_diff:", self.or_breakout_range_point_diff, "(", type(self.or_breakout_range_point_diff),")")
+  
         pass
     def itmBreakoutAlert(self, request):
 
