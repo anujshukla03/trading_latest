@@ -19,7 +19,6 @@ class breakoutLogic():
         self.orb_range_start_time1 = str(self.kite.generic_params["orb_range_start_time"]+":00")#time
         self.orb_range_start_time = datetime.datetime.strptime(self.orb_range_start_time1, '%H:%M:%S').time()
         self.orb_retracement_time = self.kite.generic_params["orb_retracement_time"]
-        self.moving_avg_rows = self.kite.generic_params["moving_avg_rows"]
         self.itm_ma_h = self.kite.generic_params["itm_ma_h"]
         self.itm_ma_l = self.kite.generic_params["itm_ma_l"]
         self.itm_ma_oi = self.kite.generic_params["itm_ma_oi"]
@@ -67,7 +66,6 @@ class breakoutLogic():
         print("orb_ma_l:", self.orb_ma_l, "(", type(self.orb_ma_l) ,")")
         print("orb_range_start_time:", self.orb_range_start_time, "(", type(self.orb_range_start_time) ,")")
         print("orb_retracement_time:", self.orb_retracement_time, "(", type(self.orb_retracement_time) ,")")
-        print("moving_avg_rows:", self.moving_avg_rows, "(", type(self.moving_avg_rows) ,")")
         print("itm_ma_h:", self.itm_ma_h, "(", type(self.itm_ma_h) ,")")
         print("itm_ma_l:", self.itm_ma_l, "(", type(self.itm_ma_l) ,")")
         print("itm_ma_oi:", self.itm_ma_oi, "(", type(self.itm_ma_oi) ,")")
