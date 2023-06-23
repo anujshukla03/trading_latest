@@ -11,46 +11,43 @@ import math
 class breakoutLogic():
 
     def __init__(self) -> None:
-
         self.kite = kiteInit()
-        self.orb_range_candle_time = int(self.kite.generic_params["orb_range_candle_time"])
-        self.or_breakout_candle_time = int(self.kite.generic_params["or_breakout_candle_time"])
-        self.orb_ma_h = int(self.kite.generic_params["orb_ma_h"])
-        self.orb_ma_l = int(self.kite.generic_params["orb_ma_l"])
+        self.orb_range_candle_time = self.kite.generic_params["orb_range_candle_time"]
+        self.or_breakout_candle_time = self.kite.generic_params["or_breakout_candle_time"]
+        self.orb_ma_h = self.kite.generic_params["orb_ma_h"]
+        self.orb_ma_l = self.kite.generic_params["orb_ma_l"]
         self.orb_range_start_time1 = str(self.kite.generic_params["orb_range_start_time"]+":00")#time
         self.orb_range_start_time = datetime.datetime.strptime(self.orb_range_start_time1, '%H:%M:%S').time()
-        self.orb_retracement_time = int(self.kite.generic_params["orb_retracement_time"])
-        self.moving_avg_rows = int(self.kite.generic_params["moving_avg_rows"])
-        self.itm_ma_h = int(self.kite.generic_params["itm_ma_h"])
-        self.itm_ma_l = int(self.kite.generic_params["itm_ma_l"])
-        self.itm_ma_oi = int(self.kite.generic_params["itm_ma_oi"])
-        self.itm_reentry_after_mins = int(self.kite.generic_params["itm_reentry_after_mins"])
-        self.itm_entry_points_difference = float(self.kite.generic_params["itm_entry_points_difference"])
-        self.itm_exit_points_difference = float(self.kite.generic_params["itm_exit_points_difference"])
-        self.itm_sl_points_difference = float(self.kite.generic_params["itm_sl_points_difference"])
-        self.itm_sl_cost_points_difference = float(self.kite.generic_params["itm_sl_cost_points_difference"])
-        self.itm_vwap_points_difference = float(self.kite.generic_params["itm_vwap_points_difference"])
-        self.itm_sold_option_premium_decay = float(self.kite.generic_params["itm_sold_option_premium_decay"])
-        self.itm_profit_percent = float(self.kite.generic_params["itm_profit_percent"])
-        self.itm_profit_increment = float(self.kite.generic_params["itm_profit_increment"])
-        self.itm_first_target_qty = float(self.kite.generic_params["itm_first_target_qty"])
-        self.itm_second_target_qty = float(self.kite.generic_params["itm_second_target_qty"])
+        self.orb_retracement_time = self.kite.generic_params["orb_retracement_time"]
+        self.moving_avg_rows = self.kite.generic_params["moving_avg_rows"]
+        self.itm_ma_h = self.kite.generic_params["itm_ma_h"]
+        self.itm_ma_l = self.kite.generic_params["itm_ma_l"]
+        self.itm_ma_oi = self.kite.generic_params["itm_ma_oi"]
+        self.itm_reentry_after_mins = self.kite.generic_params["itm_reentry_after_mins"]
+        self.itm_entry_points_difference = self.kite.generic_params["itm_entry_points_difference"]
+        self.itm_exit_points_difference = self.kite.generic_params["itm_exit_points_difference"]
+        self.itm_sl_points_difference = self.kite.generic_params["itm_sl_points_difference"]
+        self.itm_sl_cost_points_difference = self.kite.generic_params["itm_sl_cost_points_difference"]
+        self.itm_vwap_points_difference = self.kite.generic_params["itm_vwap_points_difference"]
+        self.itm_sold_option_premium_decay = self.kite.generic_params["itm_sold_option_premium_decay"]
+        self.itm_profit_percent = self.kite.generic_params["itm_profit_percent"]
+        self.itm_profit_increment = self.kite.generic_params["itm_profit_increment"]
+        self.itm_first_target_qty = self.kite.generic_params["itm_first_target_qty"]
+        self.itm_second_target_qty = self.kite.generic_params["itm_second_target_qty"]
         self.itm_order_type = str(self.kite.generic_params["itm_order_type"])#buy/sell/both
         self.itm_last_entry_condition_check_time1 = str(self.kite.generic_params["itm_last_entry_condition_check_time"]+":00")#time
         self.itm_last_entry_condition_check_time = datetime.datetime.strptime(self.itm_last_entry_condition_check_time1, '%H:%M:%S').time()
-        self.itm_pyramid_start_time = int(self.kite.generic_params["itm_pyramid_start_time"])
+        self.itm_pyramid_start_time = self.kite.generic_params["itm_pyramid_start_time"]
         self.itm_last_pyramid_condition_check_time1 = str(self.kite.generic_params["itm_last_pyramid_condition_check_time"]+":00")#time
         self.itm_last_pyramid_condition_check_time = datetime.datetime.strptime(self.itm_last_pyramid_condition_check_time1, '%H:%M:%S').time()
-        self.itm_second_tranche_time_diffence_mins = int(self.kite.generic_params["itm_second_tranche_time_diffence_mins"])
-        self.itm_order_qty = int(self.kite.generic_params["itm_order_qty"])
-        self.itm_order_multiplier = int(self.kite.generic_params["itm_order_multiplier"])
-
-
+        self.itm_second_tranche_time_diffence_mins = self.kite.generic_params["itm_second_tranche_time_diffence_mins"]
+        self.itm_order_qty = self.kite.generic_params["itm_order_qty"]
+        self.itm_order_multiplier = self.kite.generic_params["itm_order_multiplier"]
 
         self.nifty_instrument_token = self.kite.nifty_params["nifty_instrument_token"]
-        self.nifty_hl_difference_points = int(self.kite.nifty_params["nifty_hl_difference_points"])
-        self.nifty_or_range_point_difference = int(self.kite.nifty_params["nifty_or_range_point_difference"])
-        self.nifty_or_breakout_range_point_diff = int(self.kite.nifty_params["nifty_or_breakout_range_point_diff"])
+        self.nifty_hl_difference_points = self.kite.nifty_params["nifty_hl_difference_points"]
+        self.nifty_or_range_point_difference = self.kite.nifty_params["nifty_or_range_point_difference"]
+        self.nifty_or_breakout_range_point_diff = (self.kite.nifty_params["nifty_or_breakout_range_point_diff"])
 
         self.bankNifty_instrument_token = self.kite.banknifty_params["bankNifty_instrument_token"]
         self.bankNifty_hl_difference_points = self.kite.banknifty_params["bankNifty_hl_difference_points"]
@@ -61,6 +58,49 @@ class breakoutLogic():
         self.finNifty_hl_difference_points = self.kite.finnifty_params["finNifty_hl_difference_points"]
         self.finNifty_or_range_point_difference = self.kite.finnifty_params["finNifty_or_range_point_difference"]
         self.finNifty_or_breakout_range_point_diff = self.kite.finnifty_params["finNifty_or_breakout_range_point_diff"]
+
+
+
+        print("orb_range_candle_time:", self.orb_range_candle_time, "(", type(self.orb_range_candle_time) ,")")
+        print("or_breakout_candle_time:", self.or_breakout_candle_time, "(", type(self.or_breakout_candle_time) ,")")
+        print("orb_ma_h:", self.orb_ma_h, "(", type(self.orb_ma_h) ,")")
+        print("orb_ma_l:", self.orb_ma_l, "(", type(self.orb_ma_l) ,")")
+        print("orb_range_start_time:", self.orb_range_start_time, "(", type(self.orb_range_start_time) ,")")
+        print("orb_retracement_time:", self.orb_retracement_time, "(", type(self.orb_retracement_time) ,")")
+        print("moving_avg_rows:", self.moving_avg_rows, "(", type(self.moving_avg_rows) ,")")
+        print("itm_ma_h:", self.itm_ma_h, "(", type(self.itm_ma_h) ,")")
+        print("itm_ma_l:", self.itm_ma_l, "(", type(self.itm_ma_l) ,")")
+        print("itm_ma_oi:", self.itm_ma_oi, "(", type(self.itm_ma_oi) ,")")
+        print("itm_reentry_after_mins:", self.itm_reentry_after_mins, "(", type(self.itm_reentry_after_mins) ,")")
+        print("itm_entry_points_difference:", self.itm_entry_points_difference, "(", type(self.itm_entry_points_difference) ,")")
+        print("itm_exit_points_difference:", self.itm_exit_points_difference, "(", type(self.itm_exit_points_difference) ,")")
+        print("itm_sl_points_difference:", self.itm_sl_points_difference, "(", type(self.itm_sl_points_difference) ,")")
+        print("itm_sl_cost_points_difference:", self.itm_sl_cost_points_difference, "(", type(self.itm_sl_cost_points_difference) ,")")
+        print("itm_vwap_points_difference:", self.itm_vwap_points_difference, "(", type(self.itm_vwap_points_difference) ,")")
+        print("itm_sold_option_premium_decay:", self.itm_sold_option_premium_decay, "(", type(self.itm_sold_option_premium_decay) ,")")
+        print("itm_profit_percent:", self.itm_profit_percent, "(", type(self.itm_profit_percent) ,")")
+        print("itm_profit_increment:", self.itm_profit_increment, "(", type(self.itm_profit_increment) ,")")
+        print("itm_first_target_qty:", self.itm_first_target_qty, "(", type(self.itm_first_target_qty) ,")")
+        print("itm_second_target_qty:", self.itm_second_target_qty, "(", type(self.itm_second_target_qty) ,")")
+        print("itm_order_type:", self.itm_order_type, "(", type(self.itm_order_type) ,")")
+        print("itm_last_entry_condition_check_time:", self.itm_last_entry_condition_check_time, "(", type(self.itm_last_entry_condition_check_time) ,")")
+        print("itm_pyramid_start_time:", self.itm_pyramid_start_time, "(", type(self.itm_pyramid_start_time) ,")")
+        print("itm_last_pyramid_condition_check_time:", self.itm_last_pyramid_condition_check_time, "(", type(self.itm_last_pyramid_condition_check_time) ,")")
+        print("itm_second_tranche_time_diffence_mins:", self.itm_second_tranche_time_diffence_mins, "(", type(self.itm_second_tranche_time_diffence_mins) ,")")
+        print("itm_order_qty:", self.itm_order_qty, "(", type(self.itm_order_qty) ,")")
+        print("itm_order_multiplier:", self.itm_order_multiplier, "(", type(self.itm_order_multiplier) ,")")
+        print("nifty_instrument_token:", self.nifty_instrument_token, "(", type(self.nifty_instrument_token) ,")")
+        print("nifty_hl_difference_points:", self.nifty_hl_difference_points, "(", type(self.nifty_hl_difference_points) ,")")
+        print("nifty_hl_difference_points:", self.nifty_hl_difference_points, "(", type(self.nifty_hl_difference_points) ,")")
+        print("nifty_or_breakout_range_point_diff:", self.nifty_or_breakout_range_point_diff, "(", type(self.nifty_or_breakout_range_point_diff) ,")")
+        print("bankNifty_instrument_token:", self.bankNifty_instrument_token, "(", type(self.bankNifty_instrument_token) ,")")
+        print("bankNifty_hl_difference_points:", self.bankNifty_hl_difference_points, "(", type(self.bankNifty_hl_difference_points) ,")")
+        print("bankNifty_or_range_point_difference:", self.bankNifty_or_range_point_difference, "(", type(self.bankNifty_or_range_point_difference) ,")")
+        print("bankNifty_or_breakout_range_point_diff:", self.bankNifty_or_breakout_range_point_diff, "(", type(self.bankNifty_or_breakout_range_point_diff) ,")")
+        print("finNifty_instrument_token:", self.finNifty_instrument_token, "(", type(self.finNifty_instrument_token) ,")")
+        print("finNifty_hl_difference_points:", self.finNifty_hl_difference_points, "(", type(self.finNifty_hl_difference_points) ,")")
+        print("finNifty_or_range_point_difference:", self.finNifty_or_range_point_difference, "(", type(self.finNifty_or_range_point_difference) ,")")
+        print("finNifty_or_breakout_range_point_diff:", self.finNifty_or_breakout_range_point_diff, "(", type(self.finNifty_or_breakout_range_point_diff) ,")")
 
         # self.orb_range_candle_time = int(self.kite.getdata("orb_range_candle_time"))
         # self.or_breakout_candle_time = int(self.kite.getdata("or_breakout_candle_time"))

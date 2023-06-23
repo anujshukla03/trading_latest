@@ -3,7 +3,7 @@
         "1": {
             "strategy_id": 1,
             "strategy_name": "itm buy sell",
-            "applicable_scripts": "nifty,banknifty,finnifty",
+            "applicable_scripts": "",
             "generic_params": {
                 "orb_range_candle_time": 10,
                 "or_breakout_candle_time": 10,
@@ -26,7 +26,7 @@
                 "itm_profit_increment": 0.15,
                 "itm_first_target_qty": 0.2,
                 "itm_second_target_qty": 0.2,
-                "itm_order_type": "both",
+                "itm_order_type": "buy",
                 "itm_last_entry_condition_check_time": "15:00",
                 "itm_pyramid_start_time": 10,
                 "itm_last_pyramid_condition_check_time": "15:00",
@@ -54,4 +54,4 @@
             }
         }
     }
-}   
+}
