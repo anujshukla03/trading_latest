@@ -2,23 +2,23 @@
 <html lang="en">
 
 
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-{% extends 'layouts/base.html' %}
+    {% extends 'layouts/base.html' %}
 
-{% block title %} Profile {% endblock title %}
+    {% block title %} Profile {% endblock title %}
 
-{% block content %}
+    {% block content %}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
-<body>
-    <div class="row">
-    <div class="card-body">
-    
+    <body>
+
+      
+
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
@@ -30,53 +30,114 @@
                         </div>
                     </div>
                 </div>
-                <div >
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col" style="width: 150px;">Strategy_name</th>
-                                <th scope="col"style="width: 150px;">Strategy_type</th>
-                                <th scope="col"style="width: 200px;">status</th>
-                                <th scope="col"style="width: 217.767px;">action</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for x in data %}
-                            <tr>
-                                <td scope="row">{{ x.strategy_name }}</td>
-                                <td scope="row">{{ x.strategy_type }}</td>
-                                <td scope="row">{{ x.status}}</td>
-                                <td>
-                                    <div class="btn-group">
-                                      <a href="{% url 'updateStrategy' x.doc_id %}" class="btn btn-success"><i
-                                          class="fa fa-edit"></i></a>
-                                      <a href="{% url 'deleteStrategy' x.doc_id %}" onclick="return confirm('Are you sure to delete..?')"
-                                        class="btn btn-danger"><i class="fa fa-remove"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
             </div>
+ 
+        <div class="card p-2 ml-3 mr-3">
+            <div class="table-responsive">
+                <table class="table table-bordered table-info">
+                    <thead class="thead-light">
+                        <th scope="col" style="width: 150px;">strategy_id</th>
+                        <th scope="col" style="width: 150px;">strategy_name</th>
+                        <th scope="col" style="width: 150px;">applicable_scripts</th>
+                        <th scope="col" style="width: 150px;">orb_range_candle_time</th>
+                        <th scope="col" style="width: 150px;">or_breakout_candle_time</th>
+                        <th scope="col" style="width: 150px;">orb_ma_h</th>
+                        <th scope="col" style="width: 150px;">orb_ma_l</th>
+                        <th scope="col" style="width: 150px;">orb_range_start_time</th>
+                        <th scope="col" style="width: 150px;">orb_retracement_time</th>
+                        <th scope="col" style="width: 150px;">moving_avg_rows</th>
+                        <th scope="col" style="width: 150px;">itm_ma_h</th>
+                        <th scope="col" style="width: 150px;">itm_ma_l</th>
+                        <th scope="col" style="width: 150px;">itm_ma_oi</th>
+                        <th scope="col" style="width: 150px;">itm_reentry_after_mins</th>
+                        <th scope="col" style="width: 150px;">itm_entry_points_difference</th>
+                        <th scope="col" style="width: 150px;">itm_exit_points_difference</th>
+                        <th scope="col" style="width: 150px;">itm_sl_points_difference</th>
+                        <th scope="col" style="width: 150px;">itm_sl_cost_points_difference</th>
+                        <th scope="col" style="width: 150px;">itm_vwap_points_difference</th>
+                        <th scope="col" style="width: 150px;">itm_sold_option_premium_decay</th>
+                        <th scope="col" style="width: 150px;">itm_profit_percent</th>
+                        <th scope="col" style="width: 150px;">itm_profit_increment</th>
+                        <th scope="col" style="width: 150px;">itm_first_target_qty</th>
+                        <th scope="col" style="width: 150px;">itm_second_target_qty</th>
+                        <th scope="col" style="width: 150px;">itm_order_type</th>
+                        <th scope="col" style="width: 150px;">itm_last_entry_condition_check_time</th>
+                        <th scope="col" style="width: 150px;">itm_pyramid_start_time</th>
+                        <th scope="col" style="width: 150px;">itm_last_pyramid_condition_check_time</th>
+                        <th scope="col" style="width: 150px;">itm_second_tranche_time_diffence_mins</th>
+                        <th scope="col" style="width: 150px;">itm_order_qty</th>
+                        <th scope="col" style="width: 150px;">itm_order_multiplier</th>
+                        <th scope="col" style="width: 150px;">nifty_instrument_token</th>
+                        <th scope="col" style="width: 150px;">nifty_hl_difference_points</th>
+                        <th scope="col" style="width: 150px;">nifty_or_range_point_difference</th>
+                        <th scope="col" style="width: 150px;">nifty_or_breakout_range_point_diff</th>
+                        <th scope="col" style="width: 150px;">bankNifty_instrument_token</th>
+                        <th scope="col" style="width: 150px;">bankNifty_hl_difference_points</th>
+                        <th scope="col" style="width: 150px;">bankNifty_or_range_point_difference</th>
+                        <th scope="col" style="width: 150px;">bankNifty_or_breakout_range_point_diff</th>
+                        <th scope="col" style="width: 150px;">finNifty_instrument_token</th>
+                        <th scope="col" style="width: 150px;">finNifty_hl_difference_points</th>
+                        <th scope="col" style="width: 150px;">finNifty_or_range_point_difference</th>
+                        <th scope="col" style="width: 150px;">finNifty_or_breakout_range_point_diff</th>
+                        <th scope="col" style="width: 150px;">Actions</th>
+
+                    </thead>
+
+                    {% for data in generic_params %}
+                    <tr>
+                        <td>{{ data.strategy_id }}</td>
+                        <td>{{ data.strategy_name }}</td>
+                        <td>{{ data.applicable_scripts }}</td>
+                        {% for key,val in data.generic_params.items %}
+                        <td>
+                            {{ val }}
+                        </td>
+                        {% endfor %}
+                        {% for key,val in data.nifty_params.items %}
+                        <td>
+                            {{ val }}
+                        </td>
+                        {% endfor %}
+                        {% for key,val in data.banknifty_params.items %}
+                        <td>
+                            {{ val }}
+                        </td>
+                        {% endfor %}
+                        {% for key,val in data.finnifty_params.items %}
+                        <td>
+                            {{ val }}
+                        </td>
+                        {% endfor %}
+                        <td>   
+                            <div class="btn-group">
+                                <a href="{% url 'updateStrategy' data.doc_id %}" class="btn btn-success"><i
+                                        class="fa fa-edit"></i></a>
+                                <a href="{% url 'deleteStrategy' data.doc_id %}"
+                                    onclick="return confirm('Are you sure to delete..?')"
+                                    class="btn btn-danger"><i class="fa fa-remove"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% include "includes/footer.html" %}
+        </div>
+
+
+
         
 
+        {% endblock content %}
 
-            {% include "includes/footer.html" %}
+        <!-- Specific JS goes HERE -->
+        {% block javascripts %}
 
-        </div>
-    
-    {% endblock content %}
-    
-    <!-- Specific JS goes HERE --> 
-    {% block javascripts %}
-    
-      <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
-      <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
-    
-    {% endblock javascripts %}
+        <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+        <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+        {% endblock javascripts %}
     </body>
-</html>    
+
+</html>

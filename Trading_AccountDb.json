@@ -1,1 +1,44 @@
-{"tradingAc": {"1": {"UserID": "", "BrokerID": "", "Zerodha_UserID": "", "Zerodha_Password": "", "Zerodha_TOTP_Key": "anuj", "IIFL_Email_id": "", "IIFL_Contact_Number": "", "IIFL_App_Source": "", "IIFL_User_Key": "", "IIFL_User_id": "", "IIFL_Password": "", "IIFL_Encry_Key": "", "IIFL_OcpApimSubscription": "", "IIFL_My2Pin": "", "IIFL_ClientCode": "", "IIFL_cpass": "", "TA_Status": "", "id": 1}, "2": {"UserID": "jikhvgjk", "BrokerID": "khjkh", "Zerodha_UserID": "khkj", "Zerodha_Password": "h", "Zerodha_TOTP_Key": "anuj", "IIFL_Email_id": "hjkhkj", "IIFL_Contact_Number": "hkjh", "IIFL_App_Source": "kjhkjh", "IIFL_User_Key": "kjhkj", "IIFL_User_id": "hkjh", "IIFL_Password": "hkj", "IIFL_Encry_Key": "kj", "IIFL_OcpApimSubscription": "hkj", "IIFL_My2Pin": "hkj", "IIFL_ClientCode": "h", "IIFL_cpass": "kjh", "TA_Status": "hjk", "id": 2}}}
+{
+    "tradingAc": {
+        "1": {
+            "UserID": "",
+            "BrokerID": "",
+            "Zerodha_UserID": "",
+            "Zerodha_Password": "",
+            "Zerodha_TOTP_Key": "anuj",
+            "IIFL_Email_id": "",
+            "IIFL_Contact_Number": "",
+            "IIFL_App_Source": "",
+            "IIFL_User_Key": "",
+            "IIFL_User_id": "",
+            "IIFL_Password": "",
+            "IIFL_Encry_Key": "",
+            "IIFL_OcpApimSubscription": "",
+            "IIFL_My2Pin": "",
+            "IIFL_ClientCode": "",
+            "IIFL_cpass": "",
+            "TA_Status": "",
+            "id": 1
+        },
+        "2": {
+            "UserID": "jikhvgjk",
+            "BrokerID": "khjkh",
+            "Zerodha_UserID": "khkj",
+            "Zerodha_Password": "h",
+            "Zerodha_TOTP_Key": "anuj",
+            "IIFL_Email_id": "hjkhkj",
+            "IIFL_Contact_Number": "hkjh",
+            "IIFL_App_Source": "kjhkjh",
+            "IIFL_User_Key": "kjhkj",
+            "IIFL_User_id": "hkjh",
+            "IIFL_Password": "hkj",
+            "IIFL_Encry_Key": "kj",
+            "IIFL_OcpApimSubscription": "hkj",
+            "IIFL_My2Pin": "hkj",
+            "IIFL_ClientCode": "h",
+            "IIFL_cpass": "kjh",
+            "TA_Status": "hjk",
+            "id": 2
+        }
+    }
+}

@@ -8,18 +8,41 @@ import pandas as pd
 
 class kiteInit:
     def __init__(self):
-        Inputdb=TinyDB('Inputdb.json')
-        inputs = Inputdb.table("inputs")
-        q = Query()
-        self.data = inputs.search(q.id==1)
-        self.data = self.data[0]
+        # Inputdb=TinyDB('Inputdb.json')
+        # inputs = Inputdb.table("inputs")
+        # q = Query()
+        # self.data = inputs.search(q.id==1)
+        # self.data = self.data[0]
+
+
+        #=============================================
+        StrategyDb = TinyDB("StrategyDb.json")
+        strategies = StrategyDb.table("strategies")
+        data = strategies.all()
+        data1 = data[0]
+        self.generic_params = data1["generic_params"]
+        self.nifty_params = data1["nifty_params"]
+        self.banknifty_params = data1["banknifty_params"]
+        self.finnifty_params = data1["finnifty_params"]
+
         # from_datetime=self.data.get("from_datetime")
         # x=from_datetime.replace("T"," ")+":00"
         # print(self.data)
         # db=TinyDB('db.json')
         # q = Query()
         # self.input_params = db.search(q.id==1)[0]
-
+    def generic_params(self,key):
+        return self.generic_params.get(key)
+    
+    def nifty_params(self,key):
+        return self.nifty_params.get(key)
+    
+    def banknifty_params(self,key):
+        return self.banknifty_params.get(key)
+    
+    def finnifty_params(self,key):
+        return self.finnifty_params.get(key)
+    
     def getdata(self,key):
         return self.data.get(key)
     

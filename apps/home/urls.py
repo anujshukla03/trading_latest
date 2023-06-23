@@ -4,7 +4,8 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from django.urls import path, re_path
-from apps.home import views , bot
+from apps.home import views 
+
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -12,7 +13,7 @@ urlpatterns = [
     # The home page
     path('homepage/', views.homepage, name='homepage'),
     path('', views.login, name='login'),
-    path('bot/', bot.send_help_message , name='bot'),
+    # path('bot/', bot.send_help_message , name='bot'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
 
