@@ -18,6 +18,9 @@ class breakoutLogic():
     def establish_db(self):
 
         self.kite = kiteInit()
+        self.strategy_status = self.kite.strategy_status["strategy_status"]
+        self.updated_by = self.kite.strategy_status["updated_by"]
+        self.updated_on = self.kite.strategy_status["updated_on"]
         self.orb_range_candle_time = self.kite.generic_params["orb_range_candle_time"]
         self.or_breakout_candle_time = self.kite.generic_params["or_breakout_candle_time"]
         self.orb_ma_h = self.kite.generic_params["orb_ma_h"]

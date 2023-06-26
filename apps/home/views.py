@@ -592,7 +592,7 @@ def updateStrategy(request,id):
     if request.method == 'POST':
         # Retrieve form data
         updated_strategy_data = {
-             "strategy_id": int(request.POST.get('strategy_id')),
+            "strategy_id": int(request.POST.get('strategy_id')),
             "strategy_name": request.POST.get('strategy_name'),
             "applicable_scripts":','.join(request.POST.getlist('applicable_scripts')),
             "strategy_status": request.POST.get('strategy_status'),
