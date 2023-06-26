@@ -20,6 +20,8 @@ class kiteInit:
         strategies = StrategyDb.table("strategies")
         data = strategies.all()
         data1 = data[0]
+        self.applicable_scripts = data1["applicable_scripts"]
+        print(self.applicable_scripts)
         self.generic_params = data1["generic_params"]
         self.nifty_params = data1["nifty_params"]
         self.banknifty_params = data1["banknifty_params"]

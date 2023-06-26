@@ -41,6 +41,9 @@
                         <th scope="col" style="width: 150px;">strategy_id</th>
                         <th scope="col" style="width: 150px;">strategy_name</th>
                         <th scope="col" style="width: 150px;">applicable_scripts</th>
+                        <th scope="col" style="width: 150px;">strategy_status</th>
+                        <th scope="col" style="width: 150px;">updated_by</th>
+                        <th scope="col" style="width: 150px;">updated_on</th>
                         <th scope="col" style="width: 150px;">orb_range_candle_time</th>
                         <th scope="col" style="width: 150px;">or_breakout_candle_time</th>
                         <th scope="col" style="width: 150px;">orb_ma_h</th>
@@ -97,6 +100,9 @@
                         <td>{{ data.strategy_id }}</td>
                         <td>{{ data.strategy_name }}</td>
                         <td>{{ data.applicable_scripts }}</td>
+                        <td>{{ data.strategy_status }}</td>
+                        <td>{{ data.updated_by }}</td>
+                        <td>{{ data.updated_on }}</td>
                         {% for key,val in data.generic_params.items %}
                         <td>
                             {{ val }}

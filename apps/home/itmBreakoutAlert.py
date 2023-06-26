@@ -11,10 +11,12 @@ import math
 class breakoutLogic():
 
     def __init__(self) -> None:
-        self.establish_db()
+        # self.establish_db()
+        pass
 
     
     def establish_db(self):
+
         self.kite = kiteInit()
         self.orb_range_candle_time = self.kite.generic_params["orb_range_candle_time"]
         self.or_breakout_candle_time = self.kite.generic_params["or_breakout_candle_time"]
@@ -93,7 +95,7 @@ class breakoutLogic():
         print("itm_order_multiplier:", self.itm_order_multiplier, "(", type(self.itm_order_multiplier) ,")")
         print("nifty_instrument_token:", self.nifty_instrument_token, "(", type(self.nifty_instrument_token) ,")")
         print("nifty_hl_difference_points:", self.nifty_hl_difference_points, "(", type(self.nifty_hl_difference_points) ,")")
-        print("nifty_hl_difference_points:", self.nifty_hl_difference_points, "(", type(self.nifty_hl_difference_points) ,")")
+        print("nifty_or_range_point_difference:", self.nifty_hl_difference_points, "(", type(self.nifty_or_range_point_difference) ,")")
         print("nifty_or_breakout_range_point_diff:", self.nifty_or_breakout_range_point_diff, "(", type(self.nifty_or_breakout_range_point_diff) ,")")
         print("bankNifty_instrument_token:", self.bankNifty_instrument_token, "(", type(self.bankNifty_instrument_token) ,")")
         print("bankNifty_hl_difference_points:", self.bankNifty_hl_difference_points, "(", type(self.bankNifty_hl_difference_points) ,")")

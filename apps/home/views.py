@@ -90,12 +90,12 @@ def login(request):
             return redirect("/homepage")
         else:
             return HttpResponse("incorrect")
-
     # tradelogic.getData()
-    breakout_l.__init__()
+    # breakout_l.__init__()
     # breakout_l.historicalData(request)
     tradelogic.dataAuth(request)
-    # tradelogic.__init__()
+    breakout_l.establish_db()
+    tradelogic.__init__()
     # breakout_l.itmBreakoutAlert(request)
     # t1 = threading.Thread(target=breakout_l)
     # t2 = threading.Thread(target=send_help_message)
@@ -106,13 +106,6 @@ def login(request):
     # pool = concurrent.futures.ThreadPoolExecutor(max_workers=2)
     # pool.submit(breakout_l)
     # pool.submit(send_help_message)
-    # print(tradelogic.historicalData(request=request,from_datetime=from_datetime,interval=interval,
-    #                                 to_datetime = datetime.datetime.now(),
-    #                                 instrument_token = 256265))
-    # print(tradelogic.breakoutCandle(request=request,from_datetime=from_datetime,ORB_candle_time=ORB_candle_time))
-    # tradelogic.moving_average_high(request=request,high_window_size=high_window_size)
-    # tradelogic.moving_average_low(request=request,low_window_size=low_window_size)
-    # tradelogic.top_range_breakout(request)
     return render(request, "home/login.html")
 
 
@@ -533,6 +526,9 @@ def createStrategy(request):
             "strategy_id": int(request.POST.get('strategy_id')),
             "strategy_name": request.POST.get('strategy_name'),
             "applicable_scripts":','.join(request.POST.getlist('applicable_scripts')),
+            "strategy_status": request.POST.get('strategy_status'),
+            "updated_by": request.POST.get('updated_by'),
+            "updated_on": request.POST.get('updated_on'),
             "generic_params": {
                 "orb_range_candle_time": int(request.POST.get('orb_range_candle_time')),
                 "or_breakout_candle_time": int(request.POST.get('or_breakout_candle_time')),
@@ -599,6 +595,9 @@ def updateStrategy(request,id):
              "strategy_id": int(request.POST.get('strategy_id')),
             "strategy_name": request.POST.get('strategy_name'),
             "applicable_scripts":','.join(request.POST.getlist('applicable_scripts')),
+            "strategy_status": request.POST.get('strategy_status'),
+            "updated_by": request.POST.get('updated_by'),
+            "updated_on": request.POST.get('updated_on'),
             "generic_params": {
                 "orb_range_candle_time": int(request.POST.get('orb_range_candle_time')),
                 "or_breakout_candle_time": int(request.POST.get('or_breakout_candle_time')),
