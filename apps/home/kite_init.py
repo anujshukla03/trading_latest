@@ -20,12 +20,11 @@ class kiteInit:
         strategies = StrategyDb.table("strategies")
         data = strategies.all()
         data1 = data[0]
-        self.applicable_scripts = data1["applicable_scripts"]
-        print(self.applicable_scripts)
         self.generic_params = data1["generic_params"]
         self.nifty_params = data1["nifty_params"]
         self.banknifty_params = data1["banknifty_params"]
         self.finnifty_params = data1["finnifty_params"]
+        self.applicable_scripts = data1['applicable_scripts']
 
         # from_datetime=self.data.get("from_datetime")
         # x=from_datetime.replace("T"," ")+":00"

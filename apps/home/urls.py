@@ -50,15 +50,6 @@ urlpatterns = [
     path('deleteTradingAccount/<int:id>',views.deleteTradingAccount, name='deleteTradingAccount'),
     path('updateTradingAccount/<int:id>',views.updateTradingAccount, name='updateTradingAccount'),
 
-#=========================================================================================================INPUT
-
-    path('createinput/', views.createinput , name="createinput"),
-    path('saveinput/' , views.saveinput , name="saveinput"),
-    path('showinput/', views.showinput , name='showinput'),
-    path('deleteinput/<int:id>',views.deleteinput,name='deleteinput'),
-    path('update_saveinput/',views.update_saveinput,name='update_saveinput'),
-    path('updateinput/<int:id>',views.updateinput,name='updateinput'),
-
 #=========================================================================================================ticker
 
 

@@ -2,11 +2,11 @@
     "strategies": {
         "1": {
             "strategy_id": 1,
-            "strategy_name": "itm buy sell",
-            "applicable_scripts": "nifty_params,banknifty_params",
+            "strategy_name": "itm buy sel",
+            "applicable_scripts": "nifty",
             "strategy_status": "active",
-            "updated_by": "anuj",
-            "updated_on": "27/06/2023",
+            "updated_by": "Anuj",
+            "updated_on": "2023-06-27T09:30",
             "generic_params": {
                 "orb_range_candle_time": 10,
                 "or_breakout_candle_time": 10,

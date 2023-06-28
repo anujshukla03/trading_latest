@@ -94,8 +94,8 @@ def login(request):
     # breakout_l.__init__()
     # breakout_l.historicalData(request)
     tradelogic.dataAuth(request)
-    breakout_l.establish_db()
-    tradelogic.__init__()
+    # breakout_l.establish_db()
+    # tradelogic.__init__()
     # breakout_l.itmBreakoutAlert(request)
     # t1 = threading.Thread(target=breakout_l)
     # t2 = threading.Thread(target=send_help_message)
@@ -111,125 +111,6 @@ def login(request):
 
 def profile(request):
     return render(request, "home/profile.html")
-
-
-# =================================================================================================================input views
-def createinput(request):
-    return render(request, "home/input.html")
-
-
-def saveinput(request):
-    strategy_name = request.POST.get("strategy_name")
-    strategy_id = request.POST.get("strategy_id")
-    orb_range_candle_time = request.POST.get("orb_range_candle_time")
-    or_breakout_candle_time = request.POST.get("or_breakout_candle_time")
-    orb_ma_h = request.POST.get("orb_ma_h")
-    orb_ma_l = request.POST.get("orb_ma_l")
-    orb_range_start_time = request.POST.get("orb_range_start_time")
-    orb_retracement_time = request.POST.get("orb_retracement_time")
-    hl_difference_points = request.POST.get("hl_difference_points")
-    ttoken = request.POST.get("ttoken")
-    moving_avg_rows = request.POST.get("moving_avg_rows")
-    or_breakout_range_point_diff = request.POST.get("or_breakout_range_point_diff")
-    data = inputs.all()
-    if len(data) > 0:
-        for x in data:
-            id = int(x.get("id")) + 1
-        data = [
-            {
-                "id": id,
-                "strategy_name":strategy_name,
-                "strategy_id":strategy_id,
-                "orb_range_candle_time": orb_range_candle_time,
-                "or_breakout_candle_time": or_breakout_candle_time,
-                "orb_ma_h": orb_ma_h,
-                "orb_ma_l": orb_ma_l,
-                "orb_range_start_time": orb_range_start_time,
-                "orb_retracement_time": orb_retracement_time,
-                "hl_difference_points": hl_difference_points,
-                "ttoken": ttoken,
-                "moving_avg_rows": moving_avg_rows,
-                "or_breakout_range_point_diff": or_breakout_range_point_diff,
-            }
-        ]
-    else:
-        data = [
-            {
-                "id": 1,
-                "strategy_name":strategy_name,
-                "strategy_id":strategy_id,
-                "orb_range_candle_time": orb_range_candle_time,
-                "or_breakout_candle_time": or_breakout_candle_time,
-                "orb_ma_h": orb_ma_h,
-                "orb_ma_l": orb_ma_l,
-                "orb_range_start_time": orb_range_start_time,
-                "orb_retracement_time": orb_retracement_time,
-                "hl_difference_points": hl_difference_points,
-                "ttoken": ttoken,
-                "moving_avg_rows": moving_avg_rows,
-                "or_breakout_range_point_diff": or_breakout_range_point_diff,
-            }
-        ]
-    inputs.insert_multiple(data)
-    return render(
-        request,
-        "home/input.html",
-    )
-
-
-def showinput(request):
-    q = Query()
-    data = inputs.all()
-    return render(request, "home/showinput.html", {"data": data})
-
-
-def updateinput(request, id):
-    q = Query()
-    data = inputs.search(q.id == id)
-    data = data[0]
-    return render(request, "home/updateinput.html", {"data": data})
-
-
-def update_saveinput(request):
-    id = request.POST.get("id")
-    strategy_name = request.POST.get("strategy_name")
-    strategy_id = request.POST.get("strategy_id")
-    orb_range_candle_time = request.POST.get("orb_range_candle_time")
-    or_breakout_candle_time = request.POST.get("or_breakout_candle_time")
-    orb_ma_h = request.POST.get("orb_ma_h")
-    orb_ma_l = request.POST.get("orb_ma_l")
-    orb_range_start_time = request.POST.get("orb_range_start_time")
-    orb_retracement_time = request.POST.get("orb_retracement_time")
-    hl_difference_points = request.POST.get("hl_difference_points")
-    ttoken = request.POST.get("ttoken")
-    moving_avg_rows = request.POST.get("moving_avg_rows")
-    or_breakout_range_point_diff = request.POST.get("or_breakout_range_point_diff")
-    data = {
-        "strategy_name":strategy_name,
-        "strategy_id":strategy_id,
-        "orb_range_candle_time": orb_range_candle_time,
-        "or_breakout_candle_time": or_breakout_candle_time,
-        "orb_ma_h": orb_ma_h,
-        "orb_ma_l": orb_ma_l,
-        "orb_range_start_time": orb_range_start_time,
-        "orb_retracement_time": orb_retracement_time,
-        "hl_difference_points": hl_difference_points,
-        "ttoken": ttoken,
-        "moving_avg_rows": moving_avg_rows,
-        "or_breakout_range_point_diff": or_breakout_range_point_diff,
-    }
-    q = Query()
-    inputs.update(data, q.id == int(id))
-    return HttpResponseRedirect("/showinput")
-
-
-def deleteinput(request, id):
-    # Inputdb=TinyDB('Inputdb.json')
-    b = Query()
-    inputs.remove(b.id == id)
-    # delete1 = Broker.objects.get(id=id)
-    # delete1.delete()
-    return HttpResponseRedirect("/showinput")
 
 
 #===========================================================================================================broker
@@ -459,60 +340,12 @@ def updateTradingAccount(request, id):
 
 
 
-#================================================================================================strategies
 
-# def createStrategy(request):
-#     if request.method == "POST":
-#         strategy_name = request.POST["strategy_name"]
-#         strategy_type = request.POST["strategy_type"]
-#         status = request.POST["status"]
-
-#         strategies.insert(
-#             {
-#                 "strategy_name": strategy_name,
-#                 "strategy_type": strategy_type,
-#                 "status": status,
-#             }
-#         )
-#         return redirect("/showStrategy")
-#     return render(request, "home/createStrategy.html")
-
-
-# def showStrategy(request):
-#     data = strategies.all()
-#     return render(request, "home/showStrategy.html", {"data": data})
-
-
-# def deleteStrategy(request, id):
-#     strategies.remove(doc_ids=[id])
-#     return redirect("/showStrategy")
-
-
-# def updateStrategy(request, id):
-#     data = strategies.get(doc_id=id)
-#     if request.method == "POST":
-#         strategy_name = request.POST["strategy_name"]
-#         strategy_type = request.POST["strategy_type"]
-#         status = request.POST["status"]
-
-#         strategies.update(
-#             {
-#                 "id": id,
-#                 "strategy_name": strategy_name,
-#                 "strategy_type": strategy_type,
-#                 "status": status,
-#             },
-#             doc_ids=[id],
-#         )
-
-#         return redirect("/showStrategy")
-#     return render(request, "home/updateStrategy.html", {"data": data})
-
-#================================================================================================================
+#=================================================================================================Strategy
 strategies = StrategyDb.table("strategies")
 def showStrategy(request):
     data = strategies.all() 
-    generic_params = data[0].get("generic_params")
+    # generic_params = data[0].get("generic_params")
 
     return render(request, 'home/showStrategy.html', {'generic_params':data})
 
@@ -588,7 +421,7 @@ def createStrategy(request):
 def updateStrategy(request,id):
     # Strategy = Query()
     data = strategies.get(doc_id=id)
-    print(''.join(request.POST.getlist('applicable_scripts')))
+    print(request.POST.get('updated_by'),)
     if request.method == 'POST':
         # Retrieve form data
         updated_strategy_data = {
